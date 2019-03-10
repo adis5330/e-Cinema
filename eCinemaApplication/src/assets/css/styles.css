@@ -1,0 +1,30 @@
+
+
+.navbar-light .navbar-nav .nav-link {
+  color: #fefefe;
+  font-size: 19px;
+  margin-left: 20px;
+}
+
+#navigation-item-2 {
+  margin-left: 15%;
+}
+
+#navigation-item {
+  margin-left: -20%;
+}
+
+#navigation-item-3 {
+  margin-left: -10px;
+}
+
+
+
+html {
+  width: 100%;
+  width: 100%;
+}
+
+#navcol-1{
+ margin-left: -20%;
+}

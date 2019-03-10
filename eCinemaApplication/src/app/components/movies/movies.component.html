@@ -1,0 +1,44 @@
+<div class="row-xs-12">
+
+<div class="row-xs-6" >
+<div class="col-sm-1 offset-md-10 offset-sm-7">
+<div class="dropdown" appDropdown>
+  <button
+    class="btn btn-secondary dropdown-toggle open"
+    type="button" id="dropdownMenuButton" 
+    data-toggle="drop" 
+    aria-haspopup="true"
+    id="moviesCategoriesDropdown"
+    aria-expanded="false"
+    >
+    Select type
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="dropdwon-menu-list">
+    <a class="dropdown-item" *ngFor="let categ of categories; let index=i">{{categ}}</a>
+  </div>
+</div>
+</div>
+</div>
+
+<div class="row-xs-6" style=" border: 1px solid red;">
+    <div class="row-xs-12">
+      <p>title (creation date)</p>
+    </div>
+    <div class="row-xs-12">
+      <p>image</p>
+    </div>
+    <div class="row-xs-12">
+      <p>summary</p>
+    </div>
+    <div class="row-xs-12">
+      <p>director</p>
+    </div>
+    <div class="row-xs-12">
+       <p>actor</p>
+   </div>
+   
+   </div>
+   
+   
+   
+  </div>
