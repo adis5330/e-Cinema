@@ -7,6 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
+  categories = [
+    'Action',
+    'Comedy',
+    'Thriller',
+    'Drama',
+    'Documentary'
+]
+
+
+
   constructor() { }
 
   ngOnInit() {
