@@ -4,12 +4,56 @@
   <meta charset="utf-8">
   <title>ecinema</title>
   <base href="/">
-
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <script>
+    $(document).ready(function(){
+      $("#movies").hover(function(){
+        $("#movies >.dropdown-menu").addClass("show");
+      });
+
+      $("#movies").click(function(){
+        $("#movies >.dropdown-menu").removeClass("show");
+      });
+
+      $("#movies").mouseleave(function(){
+        $("#movies >.dropdown-menu").removeClass("show");
+      });
+
+      $("#upcomingMovies").hover(function(){
+        $("#upcomingMovies> .dropdown-menu").addClass("show");
+      });
+
+
+
+      $("li").click(function(){
+      },function(){
+        $(".dropdown-menu").removeClass("show");
+      });
+
+      $("#upcomingMovies").mouseleave(function(){
+        $("#upcomingMovies>.dropdown-menu").removeClass("show");
+      });
+
+
+      $("td > button").click(function(){
+  alert("You have buy ticket for ...");
+});
+
+    })
+   
+    
+    
+    </script>
+    
 </head>
-<body s style="background-image: url(&quot;assets/img/bac2.jpeg&quot;);background-repeat: no-repeat;background-size: cover;">
+<body style="background-image: url(&quot;assets/img/bac2.jpeg&quot;);background-repeat: no-repeat;background-size: cover;">
   
   <app-root></app-root>
 </body>
