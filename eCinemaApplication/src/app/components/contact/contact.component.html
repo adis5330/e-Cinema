@@ -1,0 +1,46 @@
+<section >
+<div class="container table-dark">
+<div class="row-md-7  my-4">
+<div class="col-md-7 p-5">
+  <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+    <div class="text-capitalize font-weight-bold font-italic justify-content-between">
+      <h2>Contact us ...</h2>
+    </div>
+    <div class="formgroup" formGroupName="userData">
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input
+          type="text"
+          id="username"
+          formControlName="username"
+          class="form-control"
+          placeholder="Your name">
+        <span
+          *ngIf="!signupForm.get('userData.username').valid && signupForm.get('userData.username').touched"
+          class="help-block">
+          <span *ngIf="signupForm.get('userData.username').errors['required']">This field is required!</span>
+
+        </span>
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input
+          type="text"
+          id="email"
+          formControlName="email"
+          class="form-control"
+          placeholder="youremail@provider.com">
+        <span
+          *ngIf="!signupForm.get('userData.email').valid && signupForm.get('userData.email').touched"
+          class="help-block">Please enter a valid email!</span>
+      </div>
+    </div>
+    <button class="btn btn-primary mt-3" type="submit" >Submit</button>
+  
+    
+  </form>
+
+</div>
+</div>
+</div>
+</section>

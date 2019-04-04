@@ -9,7 +9,9 @@ export class User{
     private birth:String="";
     private userType:String="";
 
- 
+    public User(){
+
+    }
 
 
     public setUserId(userId:number) :void{
@@ -24,6 +26,7 @@ export class User{
     }
     public setEmail(userEmail:String) :void{
         this.email = userEmail;
+       
     }
     public setUserTelephone(userTelephone:String) :void{
         this.telephone = userTelephone;
@@ -43,7 +46,7 @@ export class User{
         return this.userId;
     }
 
-    public getUserName() :String{
+    public getUserName():String{
         return this.name;
     }
     public getUserLastName() :String{

@@ -1,0 +1,19 @@
+input.ng-invalid.ng-touched{
+    border-bottom-color: red;
+    border-bottom-width: 2px;
+  
+  }
+  
+  input , input.ng-touched , input.ng-untouched,input.focus{
+    border-top: transparent !important;
+    border-left: transparent !important;
+    border-right: transparent !important;
+    box-shadow: none;
+    border-radius: 0px;
+  }
+  
+  .invalid-input-span{
+    color: red;
+    width: 10px;
+  }
+  

@@ -11,6 +11,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <script>
     $(document).ready(function(){
@@ -43,12 +44,84 @@
 
 
       $("td > button").click(function(){
-  alert("You have buy ticket for ...");
-});
+       alert("You have buy ticket for ...");
+      });
 
-    })
+
+      $(document).on('mouseover','#rateSpanId',function(){
+          if($(this).hasClass('star0')){
+            $(".fa-star.star0").addClass("checked");
+              $("#rateInput").val("1");
+
+              for(var i= 4; i>=1; i--){
+              $(".fa-star.star"+i).removeClass("checked");
+            }
+          }else if($(this).hasClass('star1')){
+            for(var i= 0; i<=1; i++){
+              $(".fa-star.star"+i).addClass("checked");
+            }
+
+            for(var i= 4; i>=2; i--){
+              $(".fa-star.star"+i).removeClass("checked");
+            }
+
+            $("#rateInput").val("2");
+          }else if($(this).hasClass('star2')){
+            for(var i= 0; i<=2; i++){
+              $(".fa-star.star"+i).addClass("checked");
+            }
+            for(var i= 4; i>=3; i--){
+              $(".fa-star.star"+i).removeClass("checked");
+            }
+            $("#rateInput").val("3");
+          }else if($(this).hasClass('star3')){
+            for(var i= 0; i<=3; i++){
+              $(".fa-star.star"+i).addClass("checked");
+            }
+            for(var i= 4; i>=4; i--){
+              $(".fa-star.star"+i).removeClass("checked");
+            }
+            $("#rateInput").val("4");
+          }else{
+            for(var i= 0; i<=4; i++){
+              $(".fa-star.star"+i).addClass("checked");
+            }
+            
+            $("#rateInput").val("5");
+          }
+      });
+
+      
    
-    
+    $(document).on('click','#rateSpanId',function(){
+          if($(this).hasClass('star0')){
+            $(".fa-star.star0").removeClass("checked");
+              $("#rateInput").val("1");
+          }else if($(this).hasClass('star1')){
+            for(var i= 0; i<=1; i++){
+              $(".fa-star.star"+i).removeClass("checked");
+            }
+            $("#rateInput").val("2");
+          }else if($(this).hasClass('star2')){
+            for(var i= 0; i<=2; i++){
+              $(".fa-star.star"+i).removeClass("checked");
+            }
+            $("#rateInput").val("3");
+          }else if($(this).hasClass('star3')){
+            for(var i= 0; i<=3; i++){
+              $(".fa-star.star"+i).removeClass("checked");
+            }
+            $("#rateInput").val("4");
+          }else{
+            for(var i= 0; i<=4; i++){
+              $(".fa-star.star"+i).removeClass("checked");
+            }
+            $("#rateInput").val("5");
+          }
+      });
+
+    });
+   
     
     </script>
     

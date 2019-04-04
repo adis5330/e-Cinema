@@ -5,3 +5,6 @@
 .btn-group > .btn, .dropdown-menu {
 font-size: 15px;
 }
+.checked {
+    color: orange;
+  }

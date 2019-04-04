@@ -1,0 +1,145 @@
+<section >
+  <div class="container table-dark">
+  <div class="row-md-7  my-4">
+  <div class="col-md-7 p-5">
+    <form [formGroup]="MovieData" (ngSubmit)="onSubmit()">
+      <div class="text-capitalize font-weight-bold font-italic justify-content-between">
+        <h2>Add you movie details</h2>
+      </div>
+      <div class="formgroup" formGroupName="movieData">
+        
+        <div class="form-group">
+          <label for="title">Title: <span style="color:red; margin-bottom: 0px;">*</span></label>
+          <input
+            type="text"
+            id="title"
+            formControlName="title"
+            class="form-control"
+            placeholder="movie title">
+          <span
+            *ngIf="!MovieData.get('movieData.title').valid && MovieData.get('movieData.title').touched"
+            class="help-block">
+            <span *ngIf="MovieData.get('movieData.title').errors['required']">This field is required!</span>
+  
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label for="directors">Director(s):<span style="color:red; margin-bottom: 0px;">*</span> </label>
+          <input
+            type="text"
+            id="directors"
+            formControlName="directors"
+            class="form-control"
+            placeholder="please divide directors with ,">
+          <span
+            *ngIf="!MovieData.get('movieData.directors').valid && MovieData.get('movieData.directors').touched"
+            class="help-block">This field is required!</span>
+        </div>
+     
+      <div class="form-group">
+        <label for="actors">Actor(s):<span style="color:red; margin-bottom: 0px;">*</span> </label>
+        <input
+          type="text"
+          id="actors"
+          formControlName="actors"
+          class="form-control"
+          placeholder="please divide actors with ,">
+        <span
+          *ngIf="!MovieData.get('movieData.actors').valid && MovieData.get('movieData.actors').touched"
+          class="help-block">This field is required!</span>
+      </div>
+    
+
+      <div class="form-group">
+        <label for="actors">Movie Picture:<span style="color:red; margin-bottom: 0px;">*</span> </label>
+        <input
+          type="text"
+          id="image"
+          style="height:50px;"
+          formControlName="image"
+          class="form-control"
+          placeholder="your movie image">
+        <span
+          *ngIf="!MovieData.get('movieData.image').valid && MovieData.get('movieData.image').touched"
+          class="help-block">This field is required!</span>
+      </div>
+
+      <img 
+      *ngIf="MovieData.get('movieData.image').valid && MovieData.get('movieData.image').value!=''"
+      [src]="MovieData.get('movieData.image').value"
+      height=250 width=400 
+      alt="movie image">
+
+   
+
+      <div class="form-group">
+        <label for="summary">Summary<span style="color:red; margin-bottom: 0px;">*</span> </label>
+        <textarea
+          cols="30" 
+          rows="10"
+          type="text"
+          id="summary"
+          style="height:50px;"
+          formControlName="summary"
+          class="form-control"
+          placeholder="movie summary"></textarea>
+        <span
+          *ngIf="!MovieData.get('movieData.summary').valid && MovieData.get('movieData.summary').touched"
+          class="help-block">This field is required!</span>
+      </div>
+
+
+      <div class="form-group">
+          <label for="movieType">Movie category: <span style="color:red; margin-bottom: 0px;">*</span></label>
+          <select 
+           name="movieType_name"
+           id="movieType" 
+           class="form-control" 
+           formControlName="movieType" >
+          <option  *ngFor="let movietype of movieTypesArray" value={{movietype}}>{{movietype}}</option>
+          </select>
+        <span
+          *ngIf="!MovieData.get('movieData.summary').valid && MovieData.get('movieData.summary').touched"
+          class="help-block">This field is required!</span>
+      </div>
+
+      <div class="form-group">
+        <label for="country">Movie Production Country:<span style="color:red; margin-bottom: 0px;">*</span> </label>
+        <input
+          type="text"
+          id="country"
+          formControlName="country"
+          class="form-control"
+          placeholder="movie production country">
+        <span
+          *ngIf="!MovieData.get('movieData.country').valid && MovieData.get('movieData.country').touched"
+          class="help-block">This field is required!</span>
+      </div>
+
+
+      <div class="form-group">
+        <label for="creationDate">Created date:<span style="color:red; margin-bottom: 0px;">*</span> </label>
+        <input
+          type="text"
+          id="creationDate"
+          formControlName="creationDate"
+          class="form-control"
+          placeholder="xxxx-xx-xx">
+        <span
+          *ngIf="!MovieData.get('movieData.creationDate').valid && MovieData.get('movieData.creationDate').touched"
+          class="help-block">This field is required!</span>
+      </div>
+
+
+
+     </div>
+     <button class="btn btn-primary mt-3" type="submit" >Submit</button>
+    
+      
+    </form>
+  
+  </div>
+  </div>
+  </div>
+  </section>

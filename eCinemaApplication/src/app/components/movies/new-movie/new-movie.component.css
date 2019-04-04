@@ -1,0 +1,40 @@
+
+    
+    label{
+        color :White;
+    }
+    
+    
+     /* input.ng-invalid.ng-touched{
+        border-bottom-color: red;
+        border-bottom-width: 2px;
+      
+    } */
+      
+     input{
+        border-top: transparent !important;
+        border-left: transparent !important;
+        border-right: transparent !important;
+        box-shadow: none;
+        /* background-color: #FFCC99; */
+        margin-top: 5px;
+        border-bottom: 2px solid white;
+        border-radius: 2px;
+    }
+      
+    .form-group> span{
+        color: red;
+        width: 10px;
+    }
+    
+    input.ng-invalid.ng-touched{
+        border-bottom-color: red;
+        border-bottom-width: 2px;
+      
+      }
+    button,.formgroup{
+    margin-top: 60px;
+    
+    }
+    
+    

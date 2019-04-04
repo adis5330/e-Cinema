@@ -1,5 +1,6 @@
 export class Movies{
 
+
     private Id: number=-1;
     private title: String ="";
     private director:String ="";
@@ -9,9 +10,11 @@ export class Movies{
     private type:String="";
     private creationDate:String="";
     private country:String="";
-    private comment:String="";
 
- 
+
+    public Movies(){
+
+    }
 
 
     public setMovieId(movieId:number) :void{
@@ -45,11 +48,7 @@ export class Movies{
         this.creationDate = creationDate;
     }
 
-    public setMovieComment(comment:String) :void{
-        this.comment = comment;
-    }
-
-
+  
 
 
    
@@ -84,9 +83,6 @@ export class Movies{
         return this.creationDate;
     }
 
-    public getMovieComment() :String{
-        return this.comment;
-    }
 
 
 }

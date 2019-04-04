@@ -1,264 +1,127 @@
 
 <section>
     <div class="container-fluid ">
-      <div class="row-md-12">
-        <div class="col-md-11 col-sm-8 ml-sm-5 ">
-          <div class="row pt-5 mt-3 mb-5">
-            <div class="col-md-3 p-2 rotate">
+      <div class="row-md-5 mt-3">
+            <div class="col-md-12" *ngIf="loggedInUser" >
+                <div class="btn btn-primary p-3 font-weight-bold "> <a  (click)="createNewMovie()" routerLinkActive="active" style="color:white;" >New</a> </div>
+            </div>
+      </div>
+      <div class="row-md-5">
+        
+        <div class="col-md-12 col-sm-8 ml-sm-5 ">
+          <div class="row pt-5 mt-3 mb-5" >
+           
+          <div class="col-md-3 p-2 rotate" *ngFor="let movieItem of moviesList;let i=index">
+                <div class="row ml-4" > 
+                    <i class="fa fa-edit text-warning" (click)="updateMovie(movieItem,i)" ></i>
+                    <i class="fa fa-trash-o text-danger ml-2" style="cursor: pointer;" (click)="deleteMovie(movieItem.getMovieId(),i)"></i>
+                    <i class="fa fa-comments-o text-success ml-2" style="cursor:pointer;" (click)="addUserComment(i)"></i>
+             </div>
+               
                   <div class="card text-center mb-3 movie-card ">
                       <div class="card-header">
-                          {{demoMovie.getMovieTitle()}}
+                          {{movieItem.getMovieTitle()}}
   
                       </div>
+                      <input style="display:none" #phone value="{{i}}"/>
                       <div class="card-body p-2 ">
-                        <img class="img-fluid rounded" src="https://www.freepnglogos.com/uploads/lord-of-the-rings-png-logo/the-lord-of-the-rings-online-png-logo-11.png" alt="">
+                        <img class="img-fluid rounded" src="{{movieItem.getMoviePicture()}}" alt="">
                       </div>
                       <div class="card-footer">
-                         By {{demoMovie.getMovieDirector()}}
+                         By {{movieItem.getMovieDirector()}}
                       </div>
                       <!-- movies details -->
-                      <div class="movies-back text-center ">
-                          <div class="movies-back-content mt-3">
+                      <div class="movies-back text-center p-1">
+                          <div class="movies-back-content">
+                           
+                            
                               <div>
                                   <h3 class="text-secondary font-italic common-title">Actors</h3>
-                                  <div class="col-md-12">{{demoMovie.getMovieActors()}}</div>
+                                  <div class="col-md-12">{{movieItem.getMovieActors()}}</div>
                               </div>
                               <div class="mt-3">
                                   <h3 class="text-secondary font-italic common-title">Summary</h3>
-                                  <div class="col-md-12 text-capitalize ">{{demoMovie.getMovieSummary()}}</div>
+                                  <div class="col-md-12 text-capitalize ">{{movieItem.getMovieSummary()}}</div>
                               </div>
                               <div class="mt-3 text-start ">
                                   <h3 class="text-secondary font-italic common-title">Movie Info</h3>
                                     <ul class="list-group ">
-                                      <li class="list-group-item ">Type : {{demoMovie.getMovieType()}}</li>
-                                      <li class="list-group-item">Released Date: {{demoMovie.getMovieCreationDate()}}</li>
-                                      <li class="list-group-item">Production Country : {{demoMovie.getMovieCountry()}}</li>
+                                      <li class="list-group-item ">Type : {{movieItem.getMovieType()}}</li>
+                                      <li class="list-group-item">Released Date: {{movieItem.getMovieCreationDate()}}</li>
+                                      <li class="list-group-item">Production Country : {{movieItem.getMovieCountry()}}</li>
                                     </ul>
                               </div>
                           </div>
                       </div>
+                    
                   </div> 
+                  <div class="row containerUserComment userComment p-2" [ngClass]="{'userCommentDiplay': movieCommentPanelId==phone.value}">
+                      <i class="fa fa-close" aria-hidden="true" (click)="closeCommentPanel()"></i>
+                    <form [formGroup]="movieComment" (ngSubmit)="onCommentSubmit()" >
+                      <div class="text-capitalize font-weight-bold font-italic text-center  justify-content-between" >
+                        <h4>Add your comment</h4>
+                       
+                      </div>
+                     
+                      <div class="formgroup" formGroupName="movieCommentGroup">
+                        
+                        <div class="form-group">
+                          <label for="username">Name: <span style="color:red; margin-bottom: 0px;">*</span></label>
+                          <input
+                            type="text"
+                            id="username"
+                            formControlName="username"
+                            class="form-control"
+                            placeholder="Name">
+                          <span
+                            *ngIf="!movieComment.get('movieCommentGroup.username').valid && movieComment.get('movieCommentGroup.username').touched"
+                            class="help-block">
+                            <span *ngIf="movieComment.get('movieCommentGroup.username').errors['required']">This field is required!</span>
+                  
+                          </span>
+                        </div>
+                
+                        <div class="form-group" >
+                          <label for="rate">Rate:<span style="color:red; margin-bottom: 0px;">*</span> </label>
+                          <input formControlName="rate" type="text" class="form-control" style="display:none"  id="rateInput" #rateInput value="0" />
+                          <div *ngFor="let item of createRange(5);let rateIndex=index"  class="fa fa-star star{{rateIndex}} movieId{{i}}" id="rateSpanId">
+                      
+                          </div>
+                        
+                        </div>
+                     
+                      <div class="form-group">
+                        <label for="comment">Comment<span style="color:red; margin-bottom: 0px;">*</span> </label>
+                          <textarea
+                          cols="30" 
+                          rows="10"
+                          type="text"
+                          id="comment"
+                          style="height:50px;"
+                          formControlName="comment"
+                          class="form-control"
+                          placeholder="add comment"></textarea>
+
+
+
+                        <span
+                          *ngIf="!movieComment.get('movieCommentGroup.comment').valid && movieComment.get('movieCommentGroup.comment').touched"
+                          class="help-block">This field is required!</span>
+                      </div>
+                      </div>
+                     <button class="btn btn-primary mt-3" type="submit" >Submit</button>
+                      
+                      
+                    </form>
+                  </div>
                  
-            </div>
-            <div class="col-md-3 p-2 rotate">
-                <div class="card text-center mb-3 movie-card ">
-                    <div class="card-header">
-                        {{demoMovie.getMovieTitle()}}
-
-                    </div>
-                    <div class="card-body p-2 ">
-                      <img class="img-fluid rounded" src="https://www.freepnglogos.com/uploads/lord-of-the-rings-png-logo/the-lord-of-the-rings-online-png-logo-11.png" alt="">
-                    </div>
-                    <div class="card-footer">
-                       By {{demoMovie.getMovieDirector()}}
-                    </div>
-                    <!-- movies details -->
-                    <div class="movies-back text-center">
-                        <div class="movies-back-content mt-3">
-                            <div>
-                                <h3 class="text-secondary font-italic common-title">Actors</h3>
-                                <div class="col-md-12">{{demoMovie.getMovieActors()}}</div>
-                            </div>
-                            <div class="mt-3">
-                                <h3 class="text-secondary font-italic common-title">Summary</h3>
-                                <div class="col-md-12 text-capitalize ">{{demoMovie.getMovieSummary()}}</div>
-                            </div>
-                            <div class="mt-3 text-start ">
-                                <h3 class="text-secondary font-italic common-title">Movie Info</h3>
-                                  <ul class="list-group ">
-                                    <li class="list-group-item ">Type : {{demoMovie.getMovieType()}}</li>
-                                    <li class="list-group-item">Released Date: {{demoMovie.getMovieCreationDate()}}</li>
-                                    <li class="list-group-item">Production Country : {{demoMovie.getMovieCountry()}}</li>
-                                  </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div> 
-               
           </div>
-          <div class="col-md-3 p-2 rotate">
-              <div class="card text-center mb-3 movie-card ">
-                  <div class="card-header">
-                      {{demoMovie.getMovieTitle()}}
-
-                  </div>
-                  <div class="card-body p-2 ">
-                    <img class="img-fluid rounded" src="https://www.freepnglogos.com/uploads/lord-of-the-rings-png-logo/the-lord-of-the-rings-online-png-logo-11.png" alt="">
-                  </div>
-                  <div class="card-footer">
-                     By {{demoMovie.getMovieDirector()}}
-                  </div>
-                  <!-- movies details -->
-                  <div class="movies-back text-center">
-                      <div class="movies-back-content mt-3">
-                          <div>
-                              <h3 class="text-secondary font-italic common-title">Actors</h3>
-                              <div class="col-md-12">{{demoMovie.getMovieActors()}}</div>
-                          </div>
-                          <div class="mt-3">
-                              <h3 class="text-secondary font-italic common-title">Summary</h3>
-                              <div class="col-md-12 text-capitalize ">{{demoMovie.getMovieSummary()}}</div>
-                          </div>
-                          <div class="mt-3 text-start ">
-                              <h3 class="text-secondary font-italic common-title">Movie Info</h3>
-                                <ul class="list-group ">
-                                  <li class="list-group-item ">Type : {{demoMovie.getMovieType()}}</li>
-                                  <li class="list-group-item">Released Date: {{demoMovie.getMovieCreationDate()}}</li>
-                                  <li class="list-group-item">Production Country : {{demoMovie.getMovieCountry()}}</li>
-                                </ul>
-                          </div>
-                      </div>
-                  </div>
-              </div> 
-             
+            
         </div>
-        <div class="col-md-3 p-2 rotate">
-            <div class="card text-center mb-3 movie-card ">
-                <div class="card-header">
-                    {{demoMovie.getMovieTitle()}}
-
-                </div>
-                <div class="card-body p-2 ">
-                  <img class="img-fluid rounded" src="https://www.freepnglogos.com/uploads/lord-of-the-rings-png-logo/the-lord-of-the-rings-online-png-logo-11.png" alt="">
-                </div>
-                <div class="card-footer">
-                   By {{demoMovie.getMovieDirector()}}
-                </div>
-                <!-- movies details -->
-                <div class="movies-back text-center">
-                    <div class="movies-back-content mt-3">
-                        <div>
-                            <h3 class="text-secondary font-italic common-title">Actors</h3>
-                            <div class="col-md-12">{{demoMovie.getMovieActors()}}</div>
-                        </div>
-                        <div class="mt-3">
-                            <h3 class="text-secondary font-italic common-title">Summary</h3>
-                            <div class="col-md-12 text-capitalize ">{{demoMovie.getMovieSummary()}}</div>
-                        </div>
-                        <div class="mt-3 text-start ">
-                            <h3 class="text-secondary font-italic common-title">Movie Info</h3>
-                              <ul class="list-group ">
-                                <li class="list-group-item ">Type : {{demoMovie.getMovieType()}}</li>
-                                <li class="list-group-item">Released Date: {{demoMovie.getMovieCreationDate()}}</li>
-                                <li class="list-group-item">Production Country : {{demoMovie.getMovieCountry()}}</li>
-                              </ul>
-                        </div>
-                    </div>
-                </div>
-            </div> 
-           
-      </div>
-      <div class="col-md-3 p-2 rotate">
-          <div class="card text-center mb-3 movie-card ">
-              <div class="card-header">
-                  {{demoMovie.getMovieTitle()}}
-
-              </div>
-              <div class="card-body p-2 ">
-                <img class="img-fluid rounded" src="https://www.freepnglogos.com/uploads/lord-of-the-rings-png-logo/the-lord-of-the-rings-online-png-logo-11.png" alt="">
-              </div>
-              <div class="card-footer">
-                 By {{demoMovie.getMovieDirector()}}
-              </div>
-              <!-- movies details -->
-              <div class="movies-back text-center">
-                  <div class="movies-back-content mt-3">
-                      <div>
-                          <h3 class="text-secondary font-italic common-title">Actors</h3>
-                          <div class="col-md-12">{{demoMovie.getMovieActors()}}</div>
-                      </div>
-                      <div class="mt-3">
-                          <h3 class="text-secondary font-italic common-title">Summary</h3>
-                          <div class="col-md-12 text-capitalize ">{{demoMovie.getMovieSummary()}}</div>
-                      </div>
-                      <div class="mt-3 text-start ">
-                          <h3 class="text-secondary font-italic common-title">Movie Info</h3>
-                            <ul class="list-group ">
-                              <li class="list-group-item ">Type : {{demoMovie.getMovieType()}}</li>
-                              <li class="list-group-item">Released Date: {{demoMovie.getMovieCreationDate()}}</li>
-                              <li class="list-group-item">Production Country : {{demoMovie.getMovieCountry()}}</li>
-                            </ul>
-                      </div>
-                  </div>
-              </div>
-          </div> 
-         
-    </div>
-    <div class="col-md-3 p-2 rotate">
-        <div class="card text-center mb-3 movie-card ">
-            <div class="card-header">
-                {{demoMovie.getMovieTitle()}}
-
-            </div>
-            <div class="card-body p-2 ">
-              <img class="img-fluid rounded" src="https://www.freepnglogos.com/uploads/lord-of-the-rings-png-logo/the-lord-of-the-rings-online-png-logo-11.png" alt="">
-            </div>
-            <div class="card-footer">
-               By {{demoMovie.getMovieDirector()}}
-            </div>
-            <!-- movies details -->
-            <div class="movies-back text-center">
-                <div class="movies-back-content mt-3">
-                    <div>
-                        <h3 class="text-secondary font-italic common-title">Actors</h3>
-                        <div class="col-md-12">{{demoMovie.getMovieActors()}}</div>
-                    </div>
-                    <div class="mt-3">
-                        <h3 class="text-secondary font-italic common-title">Summary</h3>
-                        <div class="col-md-12 text-capitalize ">{{demoMovie.getMovieSummary()}}</div>
-                    </div>
-                    <div class="mt-3 text-start ">
-                        <h3 class="text-secondary font-italic common-title">Movie Info</h3>
-                          <ul class="list-group ">
-                            <li class="list-group-item ">Type : {{demoMovie.getMovieType()}}</li>
-                            <li class="list-group-item">Released Date: {{demoMovie.getMovieCreationDate()}}</li>
-                            <li class="list-group-item">Production Country : {{demoMovie.getMovieCountry()}}</li>
-                          </ul>
-                    </div>
-                </div>
-            </div>
-        </div> 
-       
-  </div>
-  <div class="col-md-3 p-2 rotate">
-      <div class="card text-center mb-3 movie-card ">
-          <div class="card-header">
-              {{demoMovie.getMovieTitle()}}
-
-          </div>
-          <div class="card-body p-2 ">
-            <img class="img-fluid rounded" src="https://www.freepnglogos.com/uploads/lord-of-the-rings-png-logo/the-lord-of-the-rings-online-png-logo-11.png" alt="">
-          </div>
-          <div class="card-footer">
-             By {{demoMovie.getMovieDirector()}}
-          </div>
-          <!-- movies details -->
-          <div class="movies-back text-center">
-              <div class="movies-back-content mt-3">
-                  <div>
-                      <h3 class="text-secondary font-italic common-title">Actors</h3>
-                      <div class="col-md-12">{{demoMovie.getMovieActors()}}</div>
-                  </div>
-                  <div class="mt-3">
-                      <h3 class="text-secondary font-italic common-title">Summary</h3>
-                      <div class="col-md-12 text-capitalize ">{{demoMovie.getMovieSummary()}}</div>
-                  </div>
-                  <div class="mt-3 text-start ">
-                      <h3 class="text-secondary font-italic common-title">Movie Info</h3>
-                        <ul class="list-group ">
-                          <li class="list-group-item ">Type : {{demoMovie.getMovieType()}}</li>
-                          <li class="list-group-item">Released Date: {{demoMovie.getMovieCreationDate()}}</li>
-                          <li class="list-group-item">Production Country : {{demoMovie.getMovieCountry()}}</li>
-                        </ul>
-                  </div>
-              </div>
-          </div>
-      </div> 
-     
-</div>
-          </div>
+  
+         </div>
           
         </div> 
-      </div>   
+        
     </div>
   </section>
