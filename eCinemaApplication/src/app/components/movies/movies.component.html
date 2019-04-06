@@ -17,12 +17,12 @@
                     <i class="fa fa-trash-o text-danger ml-2" style="cursor: pointer;" (click)="deleteMovie(movieItem.getMovieId(),i)"></i>
                     <i class="fa fa-comments-o text-success ml-2" style="cursor:pointer;" (click)="addUserComment(i)"
                     data-toggle="tooltip" data-placement="top" title="Add comment"></i>
-                    <i class="fa fa-eye text-success ml-2" style="cursor:pointer;" (click)="addUserComment(i)" 
-                    data-toggle="tooltip" data-placement="top" title="Comments"></i>
+                    <i class="fa fa-eye text-success ml-2" style="cursor:pointer;" (click)="getMovieComments(movieItem.getMovieId(),i)"
+                    data-toggle="modal" data-target="#exampleModalLong"></i>
                    
              </div>
                
-                  <div class="card text-center mb-3 mt-2movie-card ">
+                  <div class="card text-center mb-3 mt-2 movie-card ">
                       <div class="card-header">
                           {{movieItem.getMovieTitle()}}
   
@@ -120,6 +120,48 @@
                     </form>
                   </div>
                  
+
+
+                   
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle" #commentsMovieTitle></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="clearCommentTable()">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="row-sm-12" *ngFor="let commentItem of MovieCommentTable">
+                                <div class="row-sm-6">
+                                  <div class="col-sm-6">
+                                   {{commentItem.getUserName()}}
+                                  </div>
+                                  <div class="col-sm-6">
+                                    <div *ngFor="let item of createRange( commentItem.getRate());let rateIndex=index"  class="fa fa-star checked" id="rateSpanId" aria-disabled="true" >
+                      
+                                    </div>
+                                  </div>
+
+                                </div>
+                                <div class="row-sm-6">
+                                  {{commentItem.getComment()}}
+                                </div>
+                                <hr>
+              
+                            </div>
+                        </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clearCommentTable()">Close</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  <!-- Button trigger modal -->
           </div>
         </div>
   

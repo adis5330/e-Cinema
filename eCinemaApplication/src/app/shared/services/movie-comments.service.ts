@@ -28,6 +28,12 @@ export class MovieCommentsService {
   ,this.httpOptions);
 }
 
+public getMovieComments(movieId:number) :Observable<any>{
+  return  <Observable<any>> this.http.get('http://e-cinema.000webhostapp.com/getMovieComments.php?movieId='+movieId,this.httpOptions);
+}
+
+
+
 
 }
 

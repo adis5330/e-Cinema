@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { Movies } from 'src/app/objects/movies.object';
 import { UserService } from 'src/app/shared/services/user.service';
 import { MoviesService } from 'src/app/shared/services/movies.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MovieCommentsService } from 'src/app/shared/services/movie-comments.service';
+import { MovieComments } from 'src/app/objects/movieComments.object';
 
 @Component({
   selector: 'app-movies',
@@ -23,8 +24,8 @@ export class MoviesComponent implements OnInit {
   ]
 
   @ViewChild("rateInput") rateInput: ElementRef;
-
-
+  @ViewChild("commentsMovieTitle") commentMovieTitle: ElementRef;
+  
   movieComment: FormGroup;
   movieCommentPanelId :number=-1;
 
@@ -39,7 +40,7 @@ export class MoviesComponent implements OnInit {
   loggedInUser:boolean;
 
   constructor(private userService:UserService,private movieService : MoviesService,private router:Router,
-    private activeRouter:ActivatedRoute, private movieCommentsInterview:MovieCommentsService) { 
+    private activeRouter:ActivatedRoute, private movieCommentsInterview:MovieCommentsService,private renderer: Renderer2) { 
 
       this.activeRouter.queryParams
       .subscribe(
@@ -152,4 +153,32 @@ export class MoviesComponent implements OnInit {
   closeCommentPanel(){
     this.movieCommentPanelId=-1;
   }
+
+
+  MovieCommentTable : MovieComments[] = [];
+  MovieCommentObject : MovieComments;
+  commentMovie : Movies
+
+  getMovieComments(movieId:number, index :number){
+    this.commentMovie = this.moviesList[index];
+    this.renderer.setProperty(this.commentMovieTitle.nativeElement, 'innerHTML', this.commentMovie.getMovieTitle()+" Comments"); ;
+    this.movieCommentsInterview.getMovieComments(movieId).subscribe((data:MovieComments[])=>{
+      for (var i=0; i<data.length; i++) {
+        this.MovieCommentObject = new MovieComments();
+        this.MovieCommentObject.setCommentId(data[i]['id']);
+        this.MovieCommentObject.setComment(data[i]['comment']);
+        this.MovieCommentObject.setUserName(data[i]['userName']);
+        this.MovieCommentObject.setRate(data[i]['rate']);
+        this.MovieCommentObject.setMovieId(data[i]['movieId']);
+        this.MovieCommentTable.push(this.MovieCommentObject);
+      }
+
+    });
+  }
+ 
+  clearCommentTable(){
+    this.MovieCommentTable = [];
+  }
+
 }
+  
