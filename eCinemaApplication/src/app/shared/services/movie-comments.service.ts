@@ -14,10 +14,7 @@ export class MovieCommentsService {
  }
 
  public saveCommentToMovie(commentObject:{comment:string,userName:string,rate:number,movieId:number}) :Observable<any> {
-  console.log(commentObject.comment)
-  console.log(commentObject.userName)
-  console.log(commentObject.rate)
-  console.log(commentObject.movieId)
+  
   return this.http.post('http://e-cinema.000webhostapp.com/createMovieComments.php', {
     "comment":commentObject.comment,
     "userName":commentObject.userName,
