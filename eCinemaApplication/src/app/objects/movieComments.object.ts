@@ -5,12 +5,16 @@ export class MovieComments {
     private comment :string="";
     private userName :string="";
     private rate :number=-1;
+    private movieId : number =-1;
 
 
 
 
     public setCommentId(CommentId:number) :void{
         this.Id = CommentId;
+    }
+    public setMovieId(id :number) :void{
+        this.movieId = id;
     }
 
     public setComment(comment:string) :void{
@@ -46,5 +50,8 @@ export class MovieComments {
         return this.rate;
     }
 
+    public getMovieId():number{
+        return this.movieId;
+    }
 
 }

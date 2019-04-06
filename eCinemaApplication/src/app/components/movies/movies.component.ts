@@ -4,6 +4,7 @@ import { UserService } from 'src/app/shared/services/user.service';
 import { MoviesService } from 'src/app/shared/services/movies.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { MovieCommentsService } from 'src/app/shared/services/movie-comments.service';
 
 @Component({
   selector: 'app-movies',
@@ -38,7 +39,7 @@ export class MoviesComponent implements OnInit {
   loggedInUser:boolean;
 
   constructor(private userService:UserService,private movieService : MoviesService,private router:Router,
-    private activeRouter:ActivatedRoute) { 
+    private activeRouter:ActivatedRoute, private movieCommentsInterview:MovieCommentsService) { 
 
       this.activeRouter.queryParams
       .subscribe(
@@ -129,11 +130,19 @@ export class MoviesComponent implements OnInit {
     return items;
   }
 
-  onCommentSubmit(){
-    this.movieComment.get('movieCommentGroup.rate').patchValue(this.rateInput.nativeElement.value)
-    console.log(this.movieComment);
+  onCommentSubmit(movieId:number){
+    
     this.movieCommentPanelId=-1;
-    alert("Your comment has been delivered");
+    this.movieCommentsInterview.saveCommentToMovie(
+      {
+      "comment":this.movieComment.get('movieCommentGroup.comment').value, 
+      "userName" :this.movieComment.get('movieCommentGroup.username').value,
+      "rate" : +this.rateInput.nativeElement.value,
+      "movieId": +movieId
+    }).subscribe((data:any)=>{
+      console.log(data);
+      alert("the comment has been created");
+    })
   }
 
   addUserComment(i){
