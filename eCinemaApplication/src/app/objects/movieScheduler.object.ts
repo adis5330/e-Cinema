@@ -3,33 +3,40 @@ export class MovieScheduler{
 
 
     private Id: number=-1;
-    private movieTimesId: number=-1;
-    private movieId: number=-1;
-    private dateTo: string="";
-    private dateFrom: string="";
+    private movieTitle: string ="";
+    private room: string ="";
+    private date: string="";
+    private time :string="";
 
+
+    public constructor(id:number,movieTitle:string,room:string,date:string,time:string){
+        console.log(id)
+        
+        this.Id = id; this.movieTitle=movieTitle; this.room=room; this.date=date; this.time= time;
+    }
 
 
     public setScheduleId(ScheduleId:number) :void {
         this.Id = ScheduleId;
     }
 
-    public setMovieTimesId(movieTimesId:number) :void{
-        this.movieTimesId = movieTimesId;
+    public setMovieTitle(mMovieTitle:string) :void{
+        this.movieTitle = mMovieTitle;
     }
 
-    public setMovieId(movieId:number) :void{
-        this.movieId = movieId;
+    public setMovieRoom(room:string) :void{
+        this.room = room;
+    }
+    public setMovieTime(time:string) :void{
+        this.time = time;
     }
 
-    public setDateTo(dateTo:string) :void{
-        this.dateTo = dateTo;
+
+    public setDate(dateTo:string) :void{
+        this.date = dateTo;
     }
 
-    public setDateFrom(dateFrom:string) :void{
-        this.dateFrom = dateFrom;
-    }
-
+   
 
 
 
@@ -39,22 +46,23 @@ export class MovieScheduler{
         return this.Id;
     }
 
-    public getMovieTimesId() :number{
-        return this.movieTimesId;
+    public getMovieTitle() :string{
+        return this.movieTitle;
     }
 
-    public getMovieId() :number{
-        return this.movieId;
+    public getMovieRoom() :string{
+        return this.room;
+    }
+    public getMovieTime() :string{
+        return this.time;
     }
 
-    public getDateTo() :string{
-        return this.dateTo;
+
+    public getDate() :string{
+        return this.date;
     }
 
-    public getDateFrom() :string{
-        return this.dateFrom;
-    }
-
+  
 
 
 

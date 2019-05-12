@@ -54,4 +54,6 @@ movies-back-content{
     perspective:100rem;
     
 }
-
+section{
+    height: 100vh;
+}

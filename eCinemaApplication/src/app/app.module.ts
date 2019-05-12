@@ -14,6 +14,14 @@ import { AboutComponent } from './components/about/about.component';
 import { LeavaCommentComponent } from './components/leava-comment/leava-comment.component';
 import { UpComingMoviesComponent } from './components/up-coming-movies/up-coming-movies.component';
 import { NewMovieComponent } from './components/movies/new-movie/new-movie.component';
+import {inputEventListener} from "./shared/directives/inputEventListener.directive";
+import { MoviesService } from './shared/services/movies.service';
+import { NewScheduleComponent } from './components/schedule/new-schedule/new-schedule.component';
+import { NewUpcomingMovieComponent } from './components/up-coming-movies/new-upcoming-movie/new-upcoming-movie.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { AddCategoryComponent } from './components/add-category/add-category.component';
+import { LeaveACommentPageComponent } from './components/leave-acomment-page/leave-acomment-page.component';
+import { RegisterUserComponent } from './components/register-user/register-user.component';
 
 
 @NgModule({
@@ -29,6 +37,13 @@ import { NewMovieComponent } from './components/movies/new-movie/new-movie.compo
     LeavaCommentComponent,
     UpComingMoviesComponent,
     NewMovieComponent,
+    inputEventListener,
+    NewScheduleComponent,
+    NewUpcomingMovieComponent,
+    FooterComponent,
+    AddCategoryComponent,
+    LeaveACommentPageComponent,
+    RegisterUserComponent
     
    
   ],
@@ -39,7 +54,7 @@ import { NewMovieComponent } from './components/movies/new-movie/new-movie.compo
     HttpClientModule
 
   ],
-  providers: [],
+  providers: [MoviesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

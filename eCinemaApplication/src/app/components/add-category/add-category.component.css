@@ -1,6 +1,8 @@
 .container{
-    margin-top: 5%;
-    margin-bottom: 5%;  
+   
+    /* border: 1px solid red; */
+    width: auto;
+    height: auto;
     background-color: rgba(246,246,246,0.8);
     border-radius: 5px;
     border-top: 3px solid #3b99e0;
@@ -9,22 +11,25 @@
     border-right: transparent !important;
     box-shadow: none;
     color: #3b99e0;
-    width: 800px;
-    height: 600px;
-    /* border: 1px solid red; */
-    
+    margin-top: 2%;
+    margin-bottom: 2%;
     }
+
+    section{
+      
+       
+        
+        min-height: 100vh;
+    }
+
+
+
     label{
         color :black;
     }
     
     
-     /* input.ng-invalid.ng-touched{
-        border-bottom-color: red;
-        border-bottom-width: 2px;
-      
-    } */
-      
+
      input{
         border-top: transparent !important;
         border-left: transparent !important;

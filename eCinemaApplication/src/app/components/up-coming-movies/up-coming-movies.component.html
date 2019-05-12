@@ -1,11 +1,22 @@
 
 <section>
     <div class="container-fluid ">
+        <div class="row-md-5 mt-3" *ngIf="adminLoggedInUser">
+            <div class="col-md-12" >
+                <div class="btn btn-primary p-3 font-weight-bold "> <a  (click)="createNewUpcomingMovieMovie()" routerLinkActive="active" style="color:white;" >New</a> </div>
+            </div>
+      </div>
       <div class="row-md-12">
         <div class="col-md-11 col-sm-8 ml-sm-5 ">
           <div class="row pt-5 mt-3 mb-5">
-
-                <div class="col-md-3 p-2 rotate" *ngFor="let movieItem of moviesList">
+                    <div class="col-md-3 p-2 rotate" *ngFor="let movieItem of moviesList;let i=index" >
+                      <div class="row ml-4" > 
+                          <i class="fa fa-edit text-warning"  *ngIf="adminLoggedInUser" (click)="updateUpcomingMovie(movieItem,i)" ></i>
+                          <i class="fa fa-trash-o text-danger ml-2" style="cursor: pointer;"  *ngIf="adminLoggedInUser" (click)="deleteUpcomingMovie(movieItem.getMovieId(),i)"></i>
+                        
+                        
+                  </div>
+            
                         <div class="card text-center mb-3 movie-card ">
                             <div class="card-header">
                                 {{movieItem.getMovieTitle()}}
@@ -20,11 +31,7 @@
                             <!-- movies details -->
                             <div class="movies-back text-center p-1">
                                 <div class="movies-back-content">
-                                   <div class="row ml-4" *ngIf="loggedInUser">
-                                          <i class="fa fa-edit text-warning" ></i>
-                                          <i class="fa fa-trash-o text-danger ml-2" style="cursor: pointer;"></i>
-                                   </div>
-                                     
+                                 
                                   
                                     <div>
                                         <h3 class="text-secondary font-italic common-title">Actors</h3>

@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MoviesService } from 'src/app/shared/services/movies.service';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Movies } from 'src/app/objects/movies.object';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 import { UserService } from 'src/app/shared/services/user.service';
 import { HeaderService } from 'src/app/shared/services/header.service';
 
 @Component({
-  selector: 'app-new-movie',
-  templateUrl: './new-movie.component.html',
-  styleUrls: ['./new-movie.component.css']
+  selector: 'app-new-upcoming-movie',
+  templateUrl: './new-upcoming-movie.component.html',
+  styleUrls: ['./new-upcoming-movie.component.css']
 })
-export class NewMovieComponent implements OnInit {
+export class NewUpcomingMovieComponent implements OnInit {
 
+  
   MovieData: FormGroup;
 
   movieTypesArray = [
@@ -24,7 +24,7 @@ export class NewMovieComponent implements OnInit {
   ];
 
   mode: String ="";
-  movieObject : 
+  UpcomingmovieObject : 
 
   { 
     id:String,
@@ -35,7 +35,10 @@ export class NewMovieComponent implements OnInit {
     summary:String,
     type:String,
     creationDate:String,
-    country:String};
+    country:String,
+    showDay:String
+  
+  };
     loggedInUser:boolean;
 
 
@@ -52,7 +55,7 @@ export class NewMovieComponent implements OnInit {
       (queryParams: Params) => {
         this.mode = queryParams['mode'];
         if(queryParams['mode']=='edit'){
-            this.movieObject = {
+            this.UpcomingmovieObject = {
               'id' : queryParams['id'],
               "title":queryParams['title'],
               "directors": queryParams['directors'],
@@ -62,6 +65,7 @@ export class NewMovieComponent implements OnInit {
               "type":queryParams['type'],
               "creationDate":queryParams['creationDate'],
               "country": queryParams['country'],
+              "showDay": queryParams['showDay']
               
             }
         }
@@ -73,14 +77,15 @@ export class NewMovieComponent implements OnInit {
     if(this.mode=='edit'){
       this.MovieData = new FormGroup({
         'movieData': new FormGroup({
-          'title': new FormControl(this.movieObject.title, [Validators.required]),
-          'directors': new FormControl(this.movieObject.directors, [Validators.required]),
-          'actors': new FormControl(this.movieObject.actors, [Validators.required]),
-          'image': new FormControl(this.movieObject.moviePictures, [Validators.required]),
-          'summary': new FormControl(this.movieObject.summary, [Validators.required]),
+          'title': new FormControl(this.UpcomingmovieObject.title, [Validators.required]),
+          'directors': new FormControl(this.UpcomingmovieObject.directors, [Validators.required]),
+          'actors': new FormControl(this.UpcomingmovieObject.actors, [Validators.required]),
+          'image': new FormControl(this.UpcomingmovieObject.moviePictures, [Validators.required]),
+          'summary': new FormControl(this.UpcomingmovieObject.summary, [Validators.required]),
           'movieType': new FormControl(this.movieTypesArray[0], [Validators.required]),
-          'creationDate': new FormControl(this.movieObject.creationDate, [Validators.required]),
-          'country': new FormControl(this.movieObject.country, [Validators.required])
+          'creationDate': new FormControl(this.UpcomingmovieObject.creationDate, [Validators.required]),
+          'country': new FormControl(this.UpcomingmovieObject.country, [Validators.required]),
+          'showDay': new FormControl(this.UpcomingmovieObject.showDay,[Validators.required])
         })
       });
     }else if(this.mode=='new'){
@@ -93,7 +98,8 @@ export class NewMovieComponent implements OnInit {
           'summary': new FormControl(null, [Validators.required]),
           'movieType': new FormControl(this.movieTypesArray[0], [Validators.required]),
           'creationDate': new FormControl(null, [Validators.required]),
-          'country': new FormControl(null, [Validators.required])
+          'country': new FormControl(null, [Validators.required]),
+          'showDay': new FormControl(null,[Validators.required])
         })
       });
     }
@@ -102,8 +108,8 @@ export class NewMovieComponent implements OnInit {
 
   public onSubmit():void{
     if(this.mode=='edit'){
-    this.movieService.saveOrUpdateMovie({
-     'id' : this.movieObject.id,
+    this.movieService.saveOrUpdateUpcomingMovie({
+     'id' : this.UpcomingmovieObject.id,
      'title': this.MovieData.get('movieData.title').value,
      'directors': this.MovieData.get('movieData.directors').value,
      'actors': this.MovieData.get('movieData.actors').value,
@@ -111,14 +117,15 @@ export class NewMovieComponent implements OnInit {
      'summary': this.MovieData.get('movieData.summary').value,
      'type': this. MovieData.get('movieData.movieType').value,
      'creationDate': this. MovieData.get('movieData.creationDate').value,
-     'country': this. MovieData.get('movieData.country').value
+     'country': this. MovieData.get('movieData.country').value,
+     'showDay': this.MovieData.get('movieData.showDay').value
     },this.mode).subscribe((data:any)=>{
       console.log(data);
       alert("The movies has been created!");
-      this.router.navigate(['movies','all']);
+      this.router.navigate(['upcomingMovies','all']);
     });
   }else{
-    this.movieService.saveOrUpdateMovie({
+    this.movieService.saveOrUpdateUpcomingMovie({
       'id' : "",
       'title': this.MovieData.get('movieData.title').value,
       'directors': this.MovieData.get('movieData.directors').value,
@@ -127,17 +134,16 @@ export class NewMovieComponent implements OnInit {
       'summary': this.MovieData.get('movieData.summary').value,
       'type': this. MovieData.get('movieData.movieType').value,
       'creationDate': this. MovieData.get('movieData.creationDate').value,
-      'country': this. MovieData.get('movieData.country').value
+      'country': this. MovieData.get('movieData.country').value,
+      'showDay': this.MovieData.get('movieData.showDay').value
      },this.mode).subscribe((data:any)=>{
        console.log(data);
        alert("The movies has been updated!");
-       this.router.navigate(['movies','all']);
+       this.router.navigate(['upcomingMovies','all']);
      });
   }
    
   }
-
-
 
 
 }

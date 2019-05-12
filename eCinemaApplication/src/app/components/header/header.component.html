@@ -1,36 +1,39 @@
 
 
-
-<nav class="navbar navbar-expand-md navbar-light bg-light ">
+<section>
+<nav class="navbar navbar-expand-sm navbar-light bg-light ">
   <button type="button" class="navbar-toggler bg-light text-dark ml-auto " data-toggle="collapse" data-target="#nav"><span class="navbar-toggler-icon"></span></button>
  <div class="collapse navbar-collapse justify-content-between" id="nav">
   <ul class="navbar-nav">
-   <li class="nav-item dropdown" id="movies" ><a class="nav-link  mx-3 px-3 font-weight-bold text-dark dropdown-toggle" data-toggle="dropdown" [routerLink]="['/movies']" routerLinkActive="active">Movies</a>
+   <li class="nav-item dropdown" id="movies" ><a class="nav-link  mx-3 px-3 font-weight-bold text-dark dropdown-toggle" data-toggle="dropdown" [routerLink]="['/movies','all']"   
+   routerLinkActive="router-link-active" routerLinkActive="active">Movies</a>
     <div class="dropdown-menu ml-4">
-        <a *ngFor="let category of categories" class="dropdown-item" href="#">{{category}}</a>
+        <a *ngFor="let category of categories" class="dropdown-item" [routerLink]="['/movies',category]">{{category}}</a>
       </div>
    </li>
-   <li class="nav-item dropdown" id="upcomingMovies"><a class="nav-link mx-3 px-3 font-weight-bold dropdown-toggle  text-dark"  data-toggle="dropdown" [routerLink]="['/upcomingMovies']" routerLinkActive="active">Upcoming Movies</a>
+   <li class="nav-item dropdown" id="upcomingMovies"><a class="nav-link mx-4 px-3 font-weight-bold dropdown-toggle  text-dark"  data-toggle="dropdown" [routerLink]="['/upcomingMovies','all']" routerLinkActive="active">Upcoming Movies</a>
     <div class="dropdown-menu ml-4">
-      <a *ngFor="let category of categories" class="dropdown-item" href="#">{{category}}</a>
+      <a *ngFor="let category of categories" class="dropdown-item"[routerLink]="['/upcomingMovies',category]">{{category}}</a>
     </div>
   </li>
-  <li class="nav-item "><a class="nav-link mx-3 px-3 font-weight-bold text-dark" [routerLink]="['/schedule']" routerLinkActive="active">Schedule</a></li>
-  <li class="nav-item "><a class="nav-link  mx-3 px-3 font-weight-bold text-dark" [routerLink]="['/contact']" routerLinkActive="active">Contact</a></li>
-   <li class="nav-item"><a class="nav-link  mx-3 px-3 font-weight-bold text-dark" [routerLink]="['/about']" routerLinkActive="active">About</a></li>
-   <li class="nav-item"><a class="nav-link  mx-3 px-3 font-weight-bold text-dark" [routerLink]="['/leaveComment']" routerLinkActive="active">Leave a comment</a></li>
+  <li class="nav-item "><a class="nav-link mx-4 px-3 font-weight-bold text-dark" [routerLink]="['/schedule']" routerLinkActive="active">Schedule</a></li>
+  <li class="nav-item "><a class="nav-link mx-4 px-3 font-weight-bold text-dark" [routerLink]="['/addCategory']" routerLinkActive="active" *ngIf="adminLoggedInUser">Add Movie Category</a></li>
  </ul>
 
-  <div class="form-inline">
-    <button type="button" class="btn"><i class="fa fa-search font-weight-bold font"></i></button>
-      
-    <input type="text" class="form-control ml-3 " placeholder="">
-   
-  </div>
+ 
    
  <ul class="navbar-nav">
-    <li class="nav-item " style="cursor: pointer;"><a class="nav-link px-3 font-weight-bold text-dark"  data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" #openRegisterPanel *ngIf="loggedInUserId=='empty'">Login/Register</a></li>
-    <li class="nav-item " style="cursor: pointer;"><a class="nav-link px-3 font-weight-bold text-dark"  (click)="logOutUser()" #openRegisterPanel *ngIf="loggedInUserId!='empty'">Log out</a></li>
+    <li class="nav-item ">
+    <div class="form-inline">
+        <button type="button" class="btn"><i class="fa fa-search font-weight-bold font"></i></button>
+          
+        <input type="text" class="form-control ml-3 " placeholder="" #searchInput inputEventListener [disabled]="!isSearchFieldEnabled">
+       
+      </div>
+    </li>
+    <li class="nav-item " style="cursor: pointer;"><a class="nav-link px-3 font-weight-bold text-dark"  data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" #openRegisterPanel *ngIf="loggedInUserId==false">Login</a></li>
+    <li class="nav-item " style="cursor: pointer;"><a class="nav-link px-3 font-weight-bold text-dark"  [routerLink]="['/userRegister']" routerLinkActive="active" *ngIf="loggedInUserId==false">Register</a></li>
+    <li class="nav-item " style="cursor: pointer;"><a class="nav-link px-3 font-weight-bold text-dark"  (click)="logOutUser()" #openRegisterPanel *ngIf="loggedInUserId==true">Log out</a></li>
  </ul>
 </div>
 
@@ -42,7 +45,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Login / Register form</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Login</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -80,11 +83,13 @@
                 
               </div>
 
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" #closeAuthenticationPanel>Close</button>
-                <button class="btn btn-primary" type="submit" [disabled]="!authenticationForm.valid">Submit</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" #closeAuthenticationPanel>Close</button>
+                <button class="btn btn-success ml-3" type="submit" [disabled]="!authenticationForm.valid">Log in</button>
+               
               </form>
         </div>
         
       </div>
     </div>
   </div>
+</section>

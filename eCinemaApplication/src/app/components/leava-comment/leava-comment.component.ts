@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from 'src/app/shared/services/user.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { HeaderService } from 'src/app/shared/services/header.service';
+import { LeaveACommentService } from 'src/app/shared/services/leave-acomment.service';
 
 @Component({
   selector: 'app-leava-comment',
@@ -7,9 +11,29 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LeavaCommentComponent implements OnInit {
 
-  constructor() { }
+ 
+  loggedInUser:boolean;
+  signupForm: FormGroup;
+  constructor(private userService:UserService,private headerService:HeaderService,private leaveACommentService:LeaveACommentService) { }
 
   ngOnInit() {
+    this.loggedInUser =this.userService.isAuthenticated;
+    this.headerService.enableSearchField.next(false);
+    this.signupForm = new FormGroup({
+      'userData': new FormGroup({
+        'username': new FormControl(null, [Validators.required]),
+      
+        'message': new FormControl(null, [Validators.required])
+      })
+    });
   }
+
+  onSubmit(){
+    this.leaveACommentService.saveComment(this.signupForm.get('userData.username').value,this.signupForm.get('userData.message').value)
+    .subscribe((data:any)=>{
+      alert("Your message has been deliverd. Thank you!!");
+    })
+  }
+
 
 }

@@ -22,17 +22,21 @@
   
           </span>
         </div>
+       
         <div class="form-group">
-          <label for="email">Email:</label>
-          <input
-            type="text"
-            id="email"
-            formControlName="email"
-            class="form-control"
-            placeholder="youremail@provider.com">
+          <label for="email">Your Message:</label>
+          <textarea
+          cols="30" 
+          rows="10"
+          type="text"
+          id="message"
+          style="height:50px;"
+          formControlName="message"
+          class="form-control"
+          placeholder="your message"></textarea>
           <span
-            *ngIf="!signupForm.get('userData.email').valid && signupForm.get('userData.email').touched"
-            class="help-block">Please enter a valid email!</span>
+            *ngIf="!signupForm.get('userData.message').valid && signupForm.get('userData.message').touched"
+            class="help-block">Please enter your message!</span>
         </div>
       </div>
       <button class="btn btn-primary mt-3" type="submit" >Submit</button>

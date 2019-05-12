@@ -17,3 +17,9 @@ input.ng-invalid.ng-touched{
     width: 10px;
   }
   
+.dropdown-menu{
+  margin-top:-5px;
+}
+section{
+  min-width: 100%;
+}

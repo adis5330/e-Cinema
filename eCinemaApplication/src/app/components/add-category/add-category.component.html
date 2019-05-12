@@ -1,0 +1,34 @@
+<section>
+  <div class="container table-dark">
+  <div class="row-md-7  my-4">
+  <div class="col-md-7 p-5">
+    <form [formGroup]="categoryDataForm" (ngSubmit)="onSubmit()">
+      <div class="text-capitalize font-weight-bold font-italic justify-content-between">
+        <h2>Create new category</h2>
+      </div>
+      <div class="formgroup" formGroupName="categoryData">
+        <div class="form-group">
+          <label for="category">Category:</label>
+          <input
+            type="text"
+            id="category"
+            formControlName="category"
+            class="form-control"
+            placeholder="category">
+          <span
+            *ngIf="!categoryDataForm.get('categoryData.category').valid && categoryDataForm.get('categoryData.category').touched"
+            class="help-block">
+            <span *ngIf="categoryDataForm.get('categoryData.category').errors['required']">This field is required!</span>
+  
+          </span>
+        </div>
+      </div>
+      <button class="btn btn-primary mt-3" type="submit" >Submit</button>
+    
+      
+    </form>
+  
+  </div>
+  </div>
+  </div>
+  </section>

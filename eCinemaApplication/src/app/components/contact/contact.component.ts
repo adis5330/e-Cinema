@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { UserService } from 'src/app/shared/services/user.service';
+import { HeaderService } from 'src/app/shared/services/header.service';
 
 @Component({
   selector: 'app-contact',
@@ -8,18 +10,24 @@ import { Observable } from 'rxjs';
   styleUrls: ['./contact.component.css']
 })
 export class ContactComponent implements OnInit {
-
-  constructor() { }
+  loggedInUser:boolean;
+  constructor(private userService:UserService,private headerService:HeaderService) { }
   
   forbiddenUsernames = ['Chris', 'Anna'];
   
   signupForm: FormGroup;
   
   ngOnInit() {
+    this.loggedInUser =this.userService.isAuthenticated;
+
+    this.headerService.enableSearchField.next(false);
+
+
     this.signupForm = new FormGroup({
       'userData': new FormGroup({
         'username': new FormControl(null, [Validators.required]),
-        'email': new FormControl(null, [Validators.required])
+        'email': new FormControl(null, [Validators.required]),
+        'message':new FormControl(null, [Validators.required])
       })
     });
   }

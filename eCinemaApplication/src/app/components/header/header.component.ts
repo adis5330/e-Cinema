@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { User } from 'src/app/objects/user.object';
 import { Router } from '@angular/router';
+import { HeaderService } from 'src/app/shared/services/header.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -21,16 +22,21 @@ export class HeaderComponent implements OnInit {
     'Documentary'
 ]
 
+adminLoggedInUser:boolean;
 authenticationForm: FormGroup;
 userObject : User;
-loggedInUserId:String = "empty";
+loggedInUserId:boolean = false;
 
 @ViewChild('closeAuthenticationPanel') emailInput:ElementRef;
 @ViewChild('openRegisterPanel') openRegisterPanelBtn:ElementRef;
 
 forbiddenUsernames = ['Chris', 'Anna'];
 
-  constructor(private userService : UserService,private router:Router) { }
+  constructor(private userService : UserService,private router:Router,private headerService:HeaderService) { }
+  isSearchFieldEnabled:boolean = false;
+
+
+
 
   ngOnInit() {
     this.authenticationForm = new FormGroup({
@@ -39,10 +45,24 @@ forbiddenUsernames = ['Chris', 'Anna'];
         'password': new FormControl(null, [Validators.required])
       })
     });
+
+    this.userService.isAuthenticatedObservable.subscribe((data:boolean)=>{
+      this.adminLoggedInUser=data;
+     })
+
+     
+    this.userService.isAuthenticatedObservable.subscribe((data:any)=>{
+      this.loggedInUserId=data;
+    })
+
+    this.headerService.enableSearchField.subscribe((data:boolean)=>{
+      console.log("In header to active search "+data);
+      this.isSearchFieldEnabled = data;
+      console.log(this.isSearchFieldEnabled);
+    })
   }
 
   onSubmit(formData  : NgForm){
-      console.log(formData);
       let el: HTMLElement = this.emailInput.nativeElement as HTMLElement;
       this.userService.authenticateUser(this.authenticationForm.get('userData.email').value,
       this.authenticationForm.get('userData.password').value).subscribe((data:any)=>{
@@ -54,17 +74,19 @@ forbiddenUsernames = ['Chris', 'Anna'];
             el.click();
             this.userObject = this.userService.getLoggInUser();
             sessionStorage.setItem("userId", this.userObject.getUserId().toString());
-            this.loggedInUserId = sessionStorage.getItem("userId");
-            this.userService.authenticatdUser.next(true);
+            this.userService.authenticatdUser.next(data);
+            console.log(data +" fdsdfdsfsdf")
+            if(data.userType=="admin"){
+              this.adminLoggedInUser=true;
+            }
             this.userService.isAuthenticated=true;
-            this.router.navigate(['movies'],{queryParams : {
-              "userStatus": true 
-            }});
+            this.loggedInUserId =this.userService.isAuthenticated;
+            this.router.navigate(['']);
 
           }
 
     },(error:HttpErrorResponse) =>{
-     
+      alert("User doesnt exist!");
     });
 
 
@@ -93,9 +115,14 @@ forbiddenUsernames = ['Chris', 'Anna'];
   logOutUser(){
     sessionStorage.removeItem("userId");
     this.userService.isAuthenticated=false;
-    this.loggedInUserId="empty";
-    this.router.navigate(['movies']);
+    this.userService.isAuthenticatedObservable.next(false);
+    this.router.navigate(['']);
   }
 
-
+  registerUser(){
+    let el: HTMLElement = this.emailInput.nativeElement as HTMLElement;
+    this.router.navigate(['userRegister']);
+    el.click();
+ 
+  }
 }

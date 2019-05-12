@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {map} from 'rxjs/operators';
 import { User } from 'src/app/objects/user.object';
 
 @Injectable({
@@ -11,11 +10,27 @@ export class UserService {
 
   constructor(private http : HttpClient) { }
   userObject : User;
-  isAuthenticated
+  isAuthenticated;
+  isAdmin:boolean;
 
-  authenticatdUser = new Subject<boolean>()
+  authenticatdUser = new Subject< {id :number,name:string,lastName:string,email:string,telephone:string,password:string,birth:string,userType:string}>()
+  isAuthenticatedObservable = new Subject<boolean>()
 
-
+  public registerUser(userName:string, userPassword:string,lastName:string,telephone:string,birth:string,email:string){
+ 
+    const httpOptions = {headers:new HttpHeaders({ 'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'})};
+    return this.http.post('https://e-cinema.000webhostapp.com/createUser.php',  {
+         "email":email,
+         "password":userPassword,
+         "userName":userName,
+         "telephone": telephone,
+         "birth":birth,
+         "userType":"user",
+         "lastName":lastName
+         }
+     ,httpOptions);
+ 
+  }
 
 
 

@@ -8,11 +8,14 @@ $("td > button").click(function(){
   <div class="container">
     <div class="row-sm-12 ">
       <div class="row pt-4 mt-5 mb-5">
+      <div class="col-ms-12 ml-3 mb-2">
+        <button class="btn btn-success" (click)="createNewSchedule()" *ngIf="adminLoggedInUser">Add schedule</button>
+      </div>
       <div class="col-sm-12">
         <table class="table table-dark text-center">
           <thead >
               <tr>
-                  <th scope="col" > <span class="text-warning">Title</span> </th>
+                  <th scope="col" > <span class="text-warning">Movie Title</span> </th>
                   <th scope="col"> <span class="text-warning"> Date </span></th>
                   <th scope="col" ><span class="text-warning">Time</span></th>
                   <th scope="col"><span class="text-warning">Room</span></th>
@@ -20,65 +23,16 @@ $("td > button").click(function(){
                 </tr>
           </thead>
           <tbody>
-              <tr>
-                  <th scope="row">1</th>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                  <td >
-                    <button class="btn btn-warning buyTickerBtn">Buy</button></td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>@fat</td>
-                  <td >
-                    <button class="btn btn-warning buyTickerBtn" >Buy</button></td>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                  <td>Larry</td>
-                  <td>the Bird</td>
-                  <td>@twitter</td>
-                  <td>
-                    <button class="btn btn-warning buyTickerBtn">Buy</button></td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>@twitter</td>
-                    <td ><button class="btn btn-warning buyTickerBtn">Buy</button></td>
-                  </tr>
-                  <tr>
-                      <th scope="row">3</th>
-                      <td>Larry</td>
-                      <td>the Bird</td>
-                      <td>@twitter</td>
-                      <td><button class="btn btn-warning buyTickerBtn">Buy</button></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td>@twitter</td>
-                        <td > <button class="btn btn-warning buyTickerBtn">Buy</button></td>
-                      </tr>
-                      <tr>
-                          <th scope="row">3</th>
-                          <td>Larry</td>
-                          <td>the Bird</td>
-                          <td>@twitter</td> 
-                          <td><button class="btn btn-warning buyTickerBtn">Buy</button></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Larry</td>
-                            <td>the Bird</td>
-                            <td>@twitter</td> 
-                           <td ><button class="btn btn-warning buyTickerBtn">Buy</button></td>
-                        </tr>
+              <tr *ngFor="let scheduleItem of scheduledMovies;let i=index">
+                  <th scope="row">{{scheduleItem.getMovieTitle()}}</th>
+                  <td>{{scheduleItem.getDate()}}</td>
+                  <td>{{scheduleItem.getMovieTime()}}</td>
+                  <td>{{scheduleItem.getMovieRoom()}}</td>
+                  <td ><button class="btn btn-warning buyTickerBtn">Buy</button></td>
+                  <td ><button class="btn btn-warning buyTickerBtn" *ngIf="adminLoggedInUser" (click)="updateSchedule(scheduleItem)">Edit</button></td>
+                  <td ><button class="btn btn-warning buyTickerBtn" *ngIf="adminLoggedInUser" (click)="deleteScheduleItem(scheduleItem.getScheduleId(),i)">Delete</button></td>
+              </tr>
+                
           </tbody>
         </table>
       </div>

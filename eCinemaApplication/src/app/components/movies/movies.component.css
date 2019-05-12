@@ -71,3 +71,7 @@ movies-back-content{
     border: 2px solid #e6e6e6;
     border-radius: 2px;
 }
+
+section{
+    min-height: 100vh;
+}

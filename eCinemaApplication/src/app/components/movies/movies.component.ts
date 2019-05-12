@@ -6,6 +6,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MovieCommentsService } from 'src/app/shared/services/movie-comments.service';
 import { MovieComments } from 'src/app/objects/movieComments.object';
+import { HeaderService } from 'src/app/shared/services/header.service';
 
 @Component({
   selector: 'app-movies',
@@ -36,30 +37,86 @@ export class MoviesComponent implements OnInit {
   demoMovie : Movies;
   demoMovie2 : Movies;
   moviesList = [] ;
+  SearchmoviesList = [] ;
   MovieObject : Movies = null;
-  loggedInUser:boolean;
+  loggedInUser:boolean=false;
+  adminLoggedInUser:boolean=false;
+  sortedOption :string ="";
 
   constructor(private userService:UserService,private movieService : MoviesService,private router:Router,
-    private activeRouter:ActivatedRoute, private movieCommentsInterview:MovieCommentsService,private renderer: Renderer2) { 
+    private activeRouter:ActivatedRoute, private movieCommentsInterview:MovieCommentsService,private renderer: Renderer2,
+    private headerService:HeaderService) { 
+   
+   
+      this.activeRouter.params.subscribe(params => {
+        this.sortedOption = params['type'];
+        if(this.sortedOption!="" && this.sortedOption!="all"){
+            this.moviesList=[];
+            this.movieService.getMovieByCategory(this.sortedOption).subscribe((data:{actors:string,country:string,creationDate:string,director:string,id:string,moviePictures:string
+              summary:string,title:string,type:string}[])=>{
+                for (var i=0; i<data.length; i++) {
+                this.MovieObject = new Movies();
+                this.MovieObject.setMovieId(+data[i].id);
+                this.MovieObject.setMovieTitle(data[i].title);
+                this.MovieObject.setMovieDirector(data[i].director);
+                this.MovieObject.setMovieActors(data[i].actors);
+                this.MovieObject.setMoviePicture(data[i].moviePictures);
+                this.MovieObject.setMovieSummary(data[i].summary);
+                this.MovieObject.setMovieType(data[i].type);
+                this.MovieObject.setMovieCreationDate(data[i].creationDate);
+                this.MovieObject.setMovieCountry(data[i].country);
+               
+                this.moviesList.push(this.MovieObject);
+                }
+              })
+              
+        }
+     });
 
-      this.activeRouter.queryParams
-      .subscribe(
-        (queryParams: Params) => {
-          if(queryParams['userStatus']!=null){
-          this.loggedInUser=queryParams['userStatus'];
-          console.log("user status "+this.loggedInUser);
-          }else{
-            this.loggedInUser =this.userService.isAuthenticated;
-          }
-        });
+     this.userService.authenticatdUser.subscribe((data:{id :number,name:string,lastName:string,email:string,telephone:string,password:string,birth:string,userType:string})=>{
+      if(data.userType  =="admin"){
+        this.adminLoggedInUser=true;
+        this.userService.isAdmin=true;
+        this.loggedInUser = true;
+        }else{
+          console.log("Here2 fdgsgsdgd");
+          this.loggedInUser = true;
+          console.log("Here2 fdgsgsdgd" +this.loggedInUser);
+        }
+     }) 
+
+     this.userService.isAuthenticatedObservable.subscribe((data:boolean)=>{
+       console.log("Here1");
+      this.adminLoggedInUser=data;
       
+     })
+
      
+     if(this.userService.isAuthenticated){
+       console.log(this.userService.userObject.getUserType());
+       if(this.userService.userObject.getUserType()=="admin"){
+      this.adminLoggedInUser=true;
+      this.userService.isAdmin=true;
+       }
+     }else if(this.userService.isAuthenticated){
+       if(this.userService.userObject.getUserType()!="admin"){
+        console.log("Here3");
+      this.loggedInUser=true;
+       }
+     }else if(!this.userService.isAuthenticated){
+      this.adminLoggedInUser=false;
+      this.userService.isAdmin=false;
+      this.loggedInUser=false;
+     }
+     this.headerService.enableSearchField.next(true);
+    
   }
 
   ngOnInit() {
 
     
     
+    if(this.sortedOption=="" || this.sortedOption=="all"){
     this.movieService.getAllMovies().subscribe((data : Movies[])=>{
       for (var i=0; i<data.length; i++) {
         this.MovieObject = new Movies();
@@ -75,7 +132,33 @@ export class MoviesComponent implements OnInit {
         this.moviesList.push(this.MovieObject);
       }
 
+      })
+    }
+
+    this.movieService.searchButtonClicked.subscribe((data:boolean)=>{
+      if(data==true){
+        this.SearchmoviesList=[];
+      }
     })
+
+
+    this.movieService.getSearchMovies().subscribe((data:{actors:string,country:string,creationDate:string,director:string,id:string,moviePictures:string
+      summary:string,title:string,type:string})=>{
+        this.MovieObject = new Movies();
+        this.MovieObject.setMovieId(+data.id);
+        this.MovieObject.setMovieTitle(data.title);
+        this.MovieObject.setMovieDirector(data.director);
+        this.MovieObject.setMovieActors(data.actors);
+        this.MovieObject.setMoviePicture(data.moviePictures);
+        this.MovieObject.setMovieSummary(data.summary);
+        this.MovieObject.setMovieType(data.type);
+        this.MovieObject.setMovieCreationDate(data.creationDate);
+        this.MovieObject.setMovieCountry(data.country);
+        this.SearchmoviesList.push(this.MovieObject);
+        this.moviesList = this.SearchmoviesList;
+      })
+
+
 
 
     this.movieComment = new FormGroup({
@@ -132,7 +215,7 @@ export class MoviesComponent implements OnInit {
   }
 
   onCommentSubmit(movieId:number){
-    
+    console.log("Data + "+ movieId )+" "+this.movieComment.get('movieCommentGroup.comment').value;
     this.movieCommentPanelId=-1;
     this.movieCommentsInterview.saveCommentToMovie(
       {
@@ -143,6 +226,7 @@ export class MoviesComponent implements OnInit {
     }).subscribe((data:any)=>{
       console.log(data);
       alert("the comment has been created");
+      this.clearCommentTable();
     })
   }
 

@@ -48,6 +48,7 @@
 
 
       $(document).on('mouseover','#rateSpanId',function(){
+       
           if($(this).hasClass('star0')){
             $(".fa-star.star0").addClass("checked");
               $("#rateInput").val("1");
@@ -90,38 +91,10 @@
           }
       });
 
-      
-   
-    $(document).on('click','#rateSpanId',function(){
-          if($(this).hasClass('star0')){
-            $(".fa-star.star0").removeClass("checked");
-              $("#rateInput").val("1");
-          }else if($(this).hasClass('star1')){
-            for(var i= 0; i<=1; i++){
-              $(".fa-star.star"+i).removeClass("checked");
-            }
-            $("#rateInput").val("2");
-          }else if($(this).hasClass('star2')){
-            for(var i= 0; i<=2; i++){
-              $(".fa-star.star"+i).removeClass("checked");
-            }
-            $("#rateInput").val("3");
-          }else if($(this).hasClass('star3')){
-            for(var i= 0; i<=3; i++){
-              $(".fa-star.star"+i).removeClass("checked");
-            }
-            $("#rateInput").val("4");
-          }else{
-            for(var i= 0; i<=4; i++){
-              $(".fa-star.star"+i).removeClass("checked");
-            }
-            $("#rateInput").val("5");
-          }
-      });
-     
-    });
-   
 
+   
+  
+     });
    
     </script>
     
