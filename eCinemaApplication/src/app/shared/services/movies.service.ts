@@ -271,6 +271,11 @@ export class MoviesService {
       ,this.httpOptions);
   }
 
+  public getMovieCategories():Observable<any>{
+   
+    return this.http.get('http://e-cinema.000webhostapp.com/getCategories.php',
+    this.httpOptions);
+}
 
 
 

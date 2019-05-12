@@ -7,6 +7,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { User } from 'src/app/objects/user.object';
 import { Router } from '@angular/router';
 import { HeaderService } from 'src/app/shared/services/header.service';
+import { MoviesService } from 'src/app/shared/services/movies.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -15,11 +16,7 @@ import { HeaderService } from 'src/app/shared/services/header.service';
 export class HeaderComponent implements OnInit {
 
   categories = [
-    'Action',
-    'Comedy',
-    'Thriller',
-    'Drama',
-    'Documentary'
+   
 ]
 
 adminLoggedInUser:boolean;
@@ -32,7 +29,8 @@ loggedInUserId:boolean = false;
 
 forbiddenUsernames = ['Chris', 'Anna'];
 
-  constructor(private userService : UserService,private router:Router,private headerService:HeaderService) { }
+  constructor(private userService : UserService,private router:Router,private headerService:HeaderService,
+    private movieService:MoviesService) { }
   isSearchFieldEnabled:boolean = false;
 
 
@@ -60,6 +58,14 @@ forbiddenUsernames = ['Chris', 'Anna'];
       this.isSearchFieldEnabled = data;
       console.log(this.isSearchFieldEnabled);
     })
+
+    this.movieService.getMovieCategories().subscribe((data:{id:number,category:string}[])=>{
+      for (var i=0; i<data.length; i++) {
+      
+      this.categories.push(data[i].category)
+      }
+    });
+
   }
 
   onSubmit(formData  : NgForm){

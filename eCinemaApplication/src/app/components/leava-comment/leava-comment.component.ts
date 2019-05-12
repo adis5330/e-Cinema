@@ -3,6 +3,7 @@ import { UserService } from 'src/app/shared/services/user.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { HeaderService } from 'src/app/shared/services/header.service';
 import { LeaveACommentService } from 'src/app/shared/services/leave-acomment.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-leava-comment',
@@ -14,7 +15,8 @@ export class LeavaCommentComponent implements OnInit {
  
   loggedInUser:boolean;
   signupForm: FormGroup;
-  constructor(private userService:UserService,private headerService:HeaderService,private leaveACommentService:LeaveACommentService) { }
+  constructor(private userService:UserService,private headerService:HeaderService,private leaveACommentService:LeaveACommentService,
+    private router:Router) { }
 
   ngOnInit() {
     this.loggedInUser =this.userService.isAuthenticated;
@@ -32,6 +34,7 @@ export class LeavaCommentComponent implements OnInit {
     this.leaveACommentService.saveComment(this.signupForm.get('userData.username').value,this.signupForm.get('userData.message').value)
     .subscribe((data:any)=>{
       alert("Your message has been deliverd. Thank you!!");
+      this.router.navigate(['movies','all']);
     })
   }
 

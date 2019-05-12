@@ -4,6 +4,7 @@ import { HeaderService } from 'src/app/shared/services/header.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { MoviesService } from 'src/app/shared/services/movies.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-category',
@@ -14,7 +15,7 @@ export class AddCategoryComponent implements OnInit {
 
   loggedInUser:boolean;
   constructor(private userService:UserService,private headerService:HeaderService,
-    private movieService:MoviesService) { }
+    private movieService:MoviesService,private router:Router) { }
   
   categoryDataForm: FormGroup;
   
@@ -33,7 +34,8 @@ export class AddCategoryComponent implements OnInit {
   onSubmit(){
    
     this.movieService.addMovieCategory(this.categoryDataForm.get('categoryData.category').value).subscribe((data:any)=>{
-        console.log("The category has been created");
+        alert("The category has been created");
+        this.router.navigate(['']);
     })
   }
 

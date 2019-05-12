@@ -18,7 +18,6 @@ export class LeaveACommentPageComponent implements OnInit {
 
   ngOnInit() {
     this.leaveACommentsService.getAllComments().subscribe((data:{user:string,comment:string}[])=>{
-      console.log("fdsfds"+data.length);
       for (var i=0; i<data.length; i++) {
         this.userCommentObject = new UserComments(data[i].user,data[i].comment);
         this.userCommentsTable.push(this.userCommentObject);

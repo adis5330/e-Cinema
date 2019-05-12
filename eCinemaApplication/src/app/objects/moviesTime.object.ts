@@ -1,15 +1,15 @@
 export class MoviesTime{
 
 
-    private userTimesId: number=-1;
+    private id: number=-1;
     private date: string="";
     private time: string="";
     private room: string="";
 
 
 
-    public setUserTimesid(userTimesId:number) :void {
-         this.userTimesId = userTimesId;
+    public setUserTimesid(id:number) :void {
+         this.id = id;
     }
 
     public setDate(date:string) :void {
@@ -28,8 +28,8 @@ export class MoviesTime{
 
 
 
-    public getUserTimesid() :number {
-        return this.userTimesId;
+    public getId() :number {
+        return this.id;
     }
 
     public getDate() :string {

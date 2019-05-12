@@ -42,14 +42,14 @@ export class ScheduleComponent implements OnInit {
 
 
     this.movieService.getMoviesScheduling().subscribe((data: {
-      userTimesId:number,
+      id:number,
       date: string,
       time:string,
       room:string,
       movieTitle:string
     }[])=>{
       for (var i=0; i<data.length; i++) {
-      this.sheduledObject = new MovieScheduler(data[i].userTimesId,data[i].movieTitle,data[i].room,data[i].date,data[i].time);
+      this.sheduledObject = new MovieScheduler(data[i].id,data[i].movieTitle,data[i].room,data[i].date,data[i].time);
       this.scheduledMovies.push(this.sheduledObject);
     }
     });

@@ -16,13 +16,7 @@ import { HeaderService } from 'src/app/shared/services/header.service';
 export class MoviesComponent implements OnInit {
   moviesCategoriesDropdown : boolean =false;
 
-  categories = [
-      'Action',
-      'Comedy',
-      'Thriller',
-      'Drama',
-      'Documentary'
-  ]
+  categories  = []
 
   @ViewChild("rateInput") rateInput: ElementRef;
   @ViewChild("commentsMovieTitle") commentMovieTitle: ElementRef;
@@ -79,14 +73,12 @@ export class MoviesComponent implements OnInit {
         this.userService.isAdmin=true;
         this.loggedInUser = true;
         }else{
-          console.log("Here2 fdgsgsdgd");
           this.loggedInUser = true;
-          console.log("Here2 fdgsgsdgd" +this.loggedInUser);
+        
         }
      }) 
 
      this.userService.isAuthenticatedObservable.subscribe((data:boolean)=>{
-       console.log("Here1");
       this.adminLoggedInUser=data;
       
      })
@@ -100,7 +92,7 @@ export class MoviesComponent implements OnInit {
        }
      }else if(this.userService.isAuthenticated){
        if(this.userService.userObject.getUserType()!="admin"){
-        console.log("Here3");
+    
       this.loggedInUser=true;
        }
      }else if(!this.userService.isAuthenticated){
@@ -168,6 +160,10 @@ export class MoviesComponent implements OnInit {
         'comment': new FormControl(null, [Validators.required]),
       })
     });
+
+ 
+
+
 
   }
 
