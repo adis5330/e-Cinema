@@ -20,6 +20,10 @@ export class ScheduleComponent implements OnInit,OnDestroy {
   scheduledMovies : MovieScheduler[] = [];
   adminLoggedInUser:boolean;
 
+    scheduleTitle:string="";
+
+
+
   ngOnInit() {
 
 
@@ -93,4 +97,10 @@ export class ScheduleComponent implements OnInit,OnDestroy {
       this.loggedInUser=false;
     }
   }
+  buyTicket(movieTitle:string){
+    this.scheduleTitle = movieTitle;
+  }
+
+
+
 }

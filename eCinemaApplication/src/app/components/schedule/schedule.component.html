@@ -1,9 +1,3 @@
-<script>
-$("td > button").click(function(){
-  alert("You have buy ticket for ...");
-});
-</script>
-
 <section>
   <div class="container">
     <div class="row-sm-12 ">
@@ -28,7 +22,7 @@ $("td > button").click(function(){
                   <td>{{scheduleItem.getDate()}}</td>
                   <td>{{scheduleItem.getMovieTime()}}</td>
                   <td>{{scheduleItem.getMovieRoom()}}</td>
-                  <td ><button class="btn btn-warning buyTickerBtn">Buy</button></td>
+                  <td id="buyTicketRow"><button class="btn btn-warning buyTickerBtn"  data-toggle="modal" data-target="#buyTicketModal" (click)="buyTicket(scheduleItem.getMovieTitle())">Buy</button></td>
                   <td ><button class="btn btn-warning buyTickerBtn" *ngIf="adminLoggedInUser" (click)="updateSchedule(scheduleItem)">Edit</button></td>
                   <td ><button class="btn btn-warning buyTickerBtn" *ngIf="adminLoggedInUser" (click)="deleteScheduleItem(scheduleItem.getScheduleId(),i)">Delete</button></td>
               </tr>
@@ -37,6 +31,27 @@ $("td > button").click(function(){
         </table>
       </div>
     </div>
+    </div>
+
+
+    <div class="modal fade" tabindex="-1" role="dialog"  id="buyTicketModal">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">e-Cinema warning message</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>You have buy ticket for movie {{scheduleTitle}}</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+           
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
