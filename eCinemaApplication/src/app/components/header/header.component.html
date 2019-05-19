@@ -73,7 +73,7 @@
                     <br>
                     <span *ngIf="(!authenticationForm.get('userData.password').valid && authenticationForm.get('userData.password').touched)" [ngClass]="{'invalid-input-span': ( !authenticationForm.get('userData.password').valid && authenticationForm.get('userData.password').touched)}">You must enter a valid Password</span>
                      <input 
-                     type="text"
+                     type="password"
                      id="password"
                      class="form-control"
                      formControlName="password" 
