@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UpcomingMoviesService } from 'src/app/shared/services/upcoming-movies.service';
 import { UserService } from 'src/app/shared/services/user.service';
 import { Movies } from 'src/app/objects/movies.object';
@@ -12,7 +12,7 @@ import { HeaderService } from 'src/app/shared/services/header.service';
   templateUrl: './up-coming-movies.component.html',
   styleUrls: ['./up-coming-movies.component.css']
 })
-export class UpComingMoviesComponent implements OnInit {
+export class UpComingMoviesComponent implements OnInit,OnDestroy {
 
   loggedInUser:boolean;
   moviesList = [] ;
@@ -112,4 +112,13 @@ export class UpComingMoviesComponent implements OnInit {
     }});
   }
 
+
+  ngOnDestroy(): void {
+    console.log("On up cominng destroy "+this.userService.userObject);
+    if(this.userService.userObject==null){
+      this.userService.isAdmin=false;
+      this.adminLoggedInUser=false;
+      this.loggedInUser=false;
+    }
+  }
 }

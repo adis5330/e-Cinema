@@ -7,6 +7,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MovieCommentsService } from 'src/app/shared/services/movie-comments.service';
 import { MovieComments } from 'src/app/objects/movieComments.object';
 import { HeaderService } from 'src/app/shared/services/header.service';
+import { Session } from 'protractor';
 
 @Component({
   selector: 'app-movies',
@@ -33,7 +34,7 @@ export class MoviesComponent implements OnInit {
   moviesList = [] ;
   SearchmoviesList = [] ;
   MovieObject : Movies = null;
-  loggedInUser:boolean=false;
+  loggedInUser:boolean;
   adminLoggedInUser:boolean=false;
   sortedOption :string ="";
 
@@ -68,44 +69,45 @@ export class MoviesComponent implements OnInit {
      });
 
      this.userService.authenticatdUser.subscribe((data:{id :number,name:string,lastName:string,email:string,telephone:string,password:string,birth:string,userType:string})=>{
-      if(data.userType  =="admin"){
+      if(data.userType=="admin"){
         this.adminLoggedInUser=true;
         this.userService.isAdmin=true;
         this.loggedInUser = true;
-        }else{
-          this.loggedInUser = true;
-        
         }
      }) 
 
-     this.userService.isAuthenticatedObservable.subscribe((data:boolean)=>{
-      this.adminLoggedInUser=data;
-      
-     })
-
-     
      if(this.userService.isAuthenticated){
-       console.log(this.userService.userObject.getUserType());
-       if(this.userService.userObject.getUserType()=="admin"){
-      this.adminLoggedInUser=true;
-      this.userService.isAdmin=true;
-       }
-     }else if(this.userService.isAuthenticated){
-       if(this.userService.userObject.getUserType()!="admin"){
     
-      this.loggedInUser=true;
-       }
-     }else if(!this.userService.isAuthenticated){
-      this.adminLoggedInUser=false;
-      this.userService.isAdmin=false;
-      this.loggedInUser=false;
-     }
+      if(this.userService.userObject.getUserType()=="admin"){
+     this.adminLoggedInUser=true;
+     this.userService.isAdmin=true;
+      }
+    }else if(this.userService.isAuthenticated){
+      if(this.userService.userObject.getUserType()!="admin"){
+     this.loggedInUser=true;
+      }
+    }
+
+
+    this.loggedInUser = (sessionStorage.getItem("userId")!="" && sessionStorage.getItem("userId")!=null) ? true : false;
+    this.userService.sessionStatus.subscribe((data:boolean)=>{
+      console.log("Is user logged in " +data);
+      this.loggedInUser = data ; 
+      console.log("Is user logged in  status" +this.loggedInUser);
+    })
+
+    this.userService.isAuthenticatedObservable.subscribe((data:boolean)=>{
+      this.adminLoggedInUser=data;
+    })
+
+
+
      this.headerService.enableSearchField.next(true);
     
   }
 
   ngOnInit() {
-
+   
     
     
     if(this.sortedOption=="" || this.sortedOption=="all"){
@@ -168,8 +170,6 @@ export class MoviesComponent implements OnInit {
   }
 
   clickMoviesCategoriesDropdown(){
-    console.log("Button clicked");
-    console.log("moviesCategoriesDropdown");
     this.moviesCategoriesDropdown = !this.moviesCategoriesDropdown;
   }
 
@@ -211,7 +211,6 @@ export class MoviesComponent implements OnInit {
   }
 
   onCommentSubmit(movieId:number){
-    console.log("Data + "+ movieId )+" "+this.movieComment.get('movieCommentGroup.comment').value;
     this.movieCommentPanelId=-1;
     this.movieCommentsInterview.saveCommentToMovie(
       {

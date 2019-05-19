@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserService } from 'src/app/shared/services/user.service';
 import { HeaderService } from 'src/app/shared/services/header.service';
 
@@ -7,7 +7,7 @@ import { HeaderService } from 'src/app/shared/services/header.service';
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.css']
 })
-export class AboutComponent implements OnInit {
+export class AboutComponent implements OnInit,OnDestroy {
 
   loggedInUser:boolean;
   constructor(private userService:UserService,private headerService:HeaderService) { }
@@ -17,5 +17,12 @@ export class AboutComponent implements OnInit {
     this.headerService.enableSearchField.next(false);
   }
 
+  ngOnDestroy(): void {
+    console.log("On up cominng destroy "+this.userService.userObject);
+    if(this.userService.userObject==null){
+      this.userService.isAdmin=false;
+      this.loggedInUser=false;
+    }
+  }
 
 }

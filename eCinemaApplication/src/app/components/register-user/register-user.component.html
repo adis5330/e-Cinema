@@ -26,7 +26,7 @@
         <div class="form-group">
           <label for="email">Email:</label>
           <input
-            type="text"
+            type="email"
             id="email"
             formControlName="email"
             class="form-control"
@@ -45,19 +45,19 @@
             placeholder="last name">
           <span
             *ngIf="!signupForm.get('userData.lastName').valid && signupForm.get('userData.lastName').touched"
-            class="help-block">Please enter a valid email!</span>
+            class="help-block">Please enter a valid last name!</span>
         </div>
         <div class="form-group">
           <label for="telephone">Telephone:</label>
           <input
-            type="text"
+            type="number"
             id="telephone"
             formControlName="telephone"
             class="form-control"
             placeholder="+xx xxxxxxxxxx">
           <span
             *ngIf="!signupForm.get('userData.telephone').valid && signupForm.get('userData.telephone').touched"
-            class="help-block">Please enter a valid email!</span>
+            class="help-block">Please enter a valid telephone!</span>
         </div>
         <div class="form-group">
           <label for="password">Password:</label>
@@ -69,25 +69,25 @@
             placeholder="xxxxxxx">
           <span
             *ngIf="!signupForm.get('userData.password').valid && signupForm.get('userData.password').touched"
-            class="help-block">Please enter a valid email!</span>
+            class="help-block">Please enter a valid passowrd!</span>
         </div>
         <div class="form-group">
           <label for="birth">Birth date:</label>
           <input
-            type="text"
+            type="date"
             id="birth"
             formControlName="birth"
             class="form-control"
             placeholder="xxxx/xx/xx">
           <span
             *ngIf="!signupForm.get('userData.birth').valid && signupForm.get('userData.birth').touched"
-            class="help-block">Please enter a valid email!</span>
+            class="help-block">Please enter a valid birth date!</span>
         </div>
 
 
       </div>
-      <button class="btn btn-primary mt-3" type="submit" >Submit</button>
-    
+     
+      <button class="btn btn-primary mt-3" type="submit" [disabled]="!signupForm.valid">Submit</button>
       
     </form>
   

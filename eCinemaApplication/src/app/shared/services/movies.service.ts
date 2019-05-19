@@ -4,6 +4,7 @@ import { Movies } from 'src/app/objects/movies.object';
 import { Observable, Subject } from 'rxjs';
 import { AngularWaitBarrier } from 'blocking-proxy/built/lib/angular_wait_barrier';
 import { isObject } from 'util';
+import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
@@ -11,7 +12,11 @@ export class MoviesService {
    httpOptions = {headers:new HttpHeaders({ 'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'})};
    MoviesList : Movies[];
 
-  constructor(private http : HttpClient) {
+   addMoviesCategoriesTrigger  = new Subject<boolean>();
+
+
+
+  constructor(private http : HttpClient,private router:Router) {
    }
 
 
@@ -159,6 +164,7 @@ export class MoviesService {
          })
 
        }else if(searchContent.split(",").length==2){
+         console.log("Search " +searchContent.split(",")[0] + " "+searchContent.split(",")[1]);
         return  this.http.get("http://e-cinema.000webhostapp.com/searchMovies.php?title="+searchContent.split(",")[0]
         +"&actors="+searchContent.split(",")[1],this.httpOptions).toPromise().then((data:boolean)=>{
           if(data==true || data!=null){
@@ -264,7 +270,6 @@ export class MoviesService {
   }
 
   public addMovieCategory(category:string):Observable<any>{
-   
       return this.http.post('http://e-cinema.000webhostapp.com/addCategory.php', {
         "category": category, 
       }
@@ -272,7 +277,6 @@ export class MoviesService {
   }
 
   public getMovieCategories():Observable<any>{
-   
     return this.http.get('http://e-cinema.000webhostapp.com/getCategories.php',
     this.httpOptions);
 }

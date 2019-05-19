@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserService } from 'src/app/shared/services/user.service';
 import { MoviesService } from 'src/app/shared/services/movies.service';
 import { MovieScheduler } from 'src/app/objects/movieScheduler.object';
@@ -10,7 +10,8 @@ import { HeaderService } from 'src/app/shared/services/header.service';
   templateUrl: './schedule.component.html',
   styleUrls: ['./schedule.component.css']
 })
-export class ScheduleComponent implements OnInit {
+export class ScheduleComponent implements OnInit,OnDestroy {
+  
   loggedInUser:boolean;
   constructor(private userService:UserService,private movieService : MoviesService,
     private router:Router,private activeRouter:ActivatedRoute,private headerService:HeaderService) { }
@@ -24,8 +25,10 @@ export class ScheduleComponent implements OnInit {
 
     this.loggedInUser =this.userService.isAuthenticated;
     this.headerService.enableSearchField.next(false);
+
+
     if(this.userService.isAuthenticated){
-      console.log("cdsd" +this.userService.userObject.getUserType());
+      console.log("Schedule "+this.userService.userObject.getUserType());
       if(this.userService.userObject.getUserType()=="admin"){
      this.adminLoggedInUser=true;
      this.userService.isAdmin=true;
@@ -81,4 +84,13 @@ export class ScheduleComponent implements OnInit {
   }
 
 
+
+  ngOnDestroy(): void {
+    console.log("On destroy "+this.userService.userObject);
+    if(this.userService.userObject==null){
+
+      this.adminLoggedInUser=false;
+      this.loggedInUser=false;
+    }
+  }
 }

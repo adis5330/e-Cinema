@@ -30,10 +30,10 @@ export class RegisterUserComponent implements OnInit {
     this.signupForm = new FormGroup({
       'userData': new FormGroup({
         'username': new FormControl(null, [Validators.required]),
-        'email': new FormControl(null, [Validators.required]),
+        'email': new FormControl(null, [Validators.required,Validators.email]),
         'lastName':new FormControl(null, [Validators.required]),
-        'telephone': new FormControl(null, [Validators.required]),
-        'password': new FormControl(null, [Validators.required]),
+        'telephone': new FormControl(null, [Validators.required,Validators.minLength(3),Validators.maxLength(15)]),
+        'password': new FormControl(null, [Validators.required,Validators.minLength(3),Validators.maxLength(15)]),
         'birth': new FormControl(null, [Validators.required])
       })
     });
@@ -53,18 +53,16 @@ export class RegisterUserComponent implements OnInit {
       if(data===null){
         alert("You Insert invalid credentials.Please try again")
       }else{
-        console.log(data.email);
+       
         this.userService.saveUser(data);
         this.userObject = this.userService.getLoggInUser();
-        console.log(this.userObject.getEmail());
         sessionStorage.setItem("userId", this.userObject.getUserId().toString());
-        
         this.userService.authenticatdUser.next(data);
         this.userService.isAuthenticated=true;
-        this.userService.isAuthenticatedObservable.next(true)
-        this.router.navigate(['movies','all']);
+        this.userService.sessionStatus.next(true);
+        this.router.navigate(['']);
         
-        alert("the user "+ this.signupForm.get('userData.username').value+" has been created")
+       
 
       }
 

@@ -15,6 +15,7 @@ export class UserService {
 
   authenticatdUser = new Subject< {id :number,name:string,lastName:string,email:string,telephone:string,password:string,birth:string,userType:string}>()
   isAuthenticatedObservable = new Subject<boolean>()
+  sessionStatus = new Subject<boolean>()
 
   public registerUser(userName:string, userPassword:string,lastName:string,telephone:string,birth:string,email:string){
  
@@ -53,7 +54,7 @@ export class UserService {
    data : {id:number,name:string,lastName:string,email:string,telephone:String,password:string,birth:string,userType:string}
   ):void{
     this.userObject = new User();
-   
+    this.userObject.setUserId(data.id);
     this.userObject.setUserName(data.name);
     this.userObject.setUserLastName(data.lastName);
     this.userObject.setEmail(data.email);
@@ -62,6 +63,11 @@ export class UserService {
     this.userObject.setUserBirth(data.birth);
     this.userObject.setUserType(data.userType);
   }
+
+  public deleteUser(){
+    this.userObject = null;
+  }
+
 
   public getLoggInUser() :User{
     return this.userObject;

@@ -49,22 +49,37 @@ forbiddenUsernames = ['Chris', 'Anna'];
      })
 
      
-    this.userService.isAuthenticatedObservable.subscribe((data:any)=>{
+    this.userService.sessionStatus.subscribe((data:any)=>{
       this.loggedInUserId=data;
     })
 
     this.headerService.enableSearchField.subscribe((data:boolean)=>{
-      console.log("In header to active search "+data);
       this.isSearchFieldEnabled = data;
       console.log(this.isSearchFieldEnabled);
     })
 
     this.movieService.getMovieCategories().subscribe((data:{id:number,category:string}[])=>{
       for (var i=0; i<data.length; i++) {
-      
       this.categories.push(data[i].category)
       }
     });
+
+    this.movieService.addMoviesCategoriesTrigger.subscribe((data:boolean)=>{
+      if(data){
+        this.categories.splice(0,this.categories.length);
+        this.movieService.getMovieCategories().subscribe((data:{id:number,category:string}[])=>{
+          for (var i=0; i<data.length; i++) {
+          
+          this.categories.push(data[i].category)
+          console.log(this.categories[i]);
+          }
+        });
+      }
+    })
+
+
+
+
 
   }
 
@@ -81,11 +96,11 @@ forbiddenUsernames = ['Chris', 'Anna'];
             this.userObject = this.userService.getLoggInUser();
             sessionStorage.setItem("userId", this.userObject.getUserId().toString());
             this.userService.authenticatdUser.next(data);
-            console.log(data +" fdsdfdsfsdf")
             if(data.userType=="admin"){
               this.adminLoggedInUser=true;
             }
             this.userService.isAuthenticated=true;
+            this.userService.sessionStatus.next(true);
             this.loggedInUserId =this.userService.isAuthenticated;
             this.router.navigate(['']);
 
@@ -121,7 +136,10 @@ forbiddenUsernames = ['Chris', 'Anna'];
   logOutUser(){
     sessionStorage.removeItem("userId");
     this.userService.isAuthenticated=false;
+    this.userService.deleteUser();
+    this.userService.isAdmin=false;
     this.userService.isAuthenticatedObservable.next(false);
+    this.userService.sessionStatus.next(false);
     this.router.navigate(['']);
   }
 
